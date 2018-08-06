@@ -31,13 +31,13 @@ public class Percolation extends WeightedQuickUnionUF{
 
     //TODO - check for array out of bounds???
     public void open(int row, int col) { // open site (row, col) if it is not open already
-        System.out.println("abrindo (" + row + "," + col + ")");
+//        System.out.println("abrindo (" + row + "," + col + ")");
 
         int index = xyTo1dIndex(row, col);
         if (!opened[index]) {
             opened[index] = true;
             //check neighbouring sites (top, bottom, left, right) and connect if opened.
-            //chekcking (row, col - 1)
+            //checking (row, col - 1)
             if (row >= 1 && row <= n && col - 1 >= 1 && col - 1 <= n) {
                 int neighborIndex = xyTo1dIndex(row, col -1);
 
@@ -48,7 +48,7 @@ public class Percolation extends WeightedQuickUnionUF{
                 }
             }
 
-            //chekcking (row, col + 1)
+            //checkking (row, col + 1)
             if (row >= 1 && row <= n && col + 1 >= 1 && col + 1 <= n) {
 
                 int neighborIndex = xyTo1dIndex(row, col + 1);
@@ -132,7 +132,20 @@ public class Percolation extends WeightedQuickUnionUF{
     // test client (optional)
     public static void main(String[] args) {
         //tests constructor
-        Percolation p = new Percolation(10);
+        int total = 0;
+        for (int i = 0; i < 2000; i++) {
+            int gridSize = 20;
+            Percolation p = new Percolation(gridSize);
+            while (!p.percolates()) {
+                int rowToOpen = (int) Math.ceil(Math.random() * gridSize);
+                int colToOpen = (int) Math.ceil(Math.random() * gridSize);
+                p.open(rowToOpen, colToOpen);
+            }
+            System.out.println("open site count: " + p.numberOfOpenSites());
+            total += p.numberOfOpenSites();
+        }
+            System.out.println("media: " + (total / 2000));
+
 //        p.size();
         //tests xyTo1dIndex(int row, int col)
 //        System.out.println(p.xyTo1dIndex(1,1));
@@ -155,30 +168,30 @@ public class Percolation extends WeightedQuickUnionUF{
 //        p.open(2,2);
 //        p.open(3,2);
 //        p.open(4,2);
-        p.open(1, 1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(2,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(3,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(4,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(5,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(6,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(7,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(8,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(9,1);
-        System.out.println("percolates? " + p.percolates());
-        p.open(10,1);
-        System.out.println("percolates? " + p.percolates());
+//        p.open(1, 1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(2,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(3,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(4,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(5,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(6,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(7,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(8,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(9,1);
+//        System.out.println("percolates? " + p.percolates());
+//        p.open(10,1);
+//        System.out.println("percolates? " + p.percolates());
 
 
 
-        System.out.println("open site count: " + p.numberOfOpenSites());
+//        System.out.println("open site count: " + p.numberOfOpenSites());
 
 //        tests isOpen(int row, int col)
 //        System.out.println(p.isOpen(1,1));
@@ -194,5 +207,7 @@ public class Percolation extends WeightedQuickUnionUF{
 //        System.out.println("pontos conectados? " + p.connected(first,second));
 //        System.out.println("isFull?: " + p.isFull(6,1));
 //        System.out.println("isFull?: " + p.isFull(5,5));
+
+
     }
 }
