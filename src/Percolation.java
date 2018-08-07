@@ -34,7 +34,7 @@ public class Percolation extends WeightedQuickUnionUF{
 //        System.out.println("abrindo (" + row + "," + col + ")");
 
         int index = xyTo1dIndex(row, col);
-        if (!opened[index]) {
+        if (!opened[index]) { //substituir condicao por metodo isOpen()
             opened[index] = true;
             //check neighbouring sites (top, bottom, left, right) and connect if opened.
             //checking (row, col - 1)
@@ -42,7 +42,7 @@ public class Percolation extends WeightedQuickUnionUF{
                 int neighborIndex = xyTo1dIndex(row, col -1);
 
                 if (isOpen(row, col -1)) {
-                  if (!connected(index,neighborIndex)) {
+                  if (!connected(index, neighborIndex)) {
                       union(index, neighborIndex);
                   }
                 }
@@ -53,7 +53,7 @@ public class Percolation extends WeightedQuickUnionUF{
 
                 int neighborIndex = xyTo1dIndex(row, col + 1);
                 if (isOpen(row, col + 1)) {
-                    if (!connected(index,neighborIndex)) {
+                    if (!connected(index, neighborIndex)) {
                         union(index, neighborIndex);
                     }
                 }
@@ -64,7 +64,7 @@ public class Percolation extends WeightedQuickUnionUF{
 
                 int neighborIndex = xyTo1dIndex(row - 1, col);
                 if (isOpen(row - 1, col)) {
-                    if (!connected(index,neighborIndex)) {
+                    if (!connected(index, neighborIndex)) {
                         union(index, neighborIndex);
                     }
                 }
@@ -75,12 +75,15 @@ public class Percolation extends WeightedQuickUnionUF{
 
                 int neighborIndex = xyTo1dIndex(row + 1, col);
                 if (isOpen(row + 1, col)) {
-                    if (!connected(index,neighborIndex)) {
+                    if (!connected(index, neighborIndex)) {
                         union(index, neighborIndex);
                     }
                 }
             }
         }
+//        if (isFull(row,col)) {
+//            System.out.println("(" + row + "," + col + ") IS FULL!");
+//        }
     }
 
 
@@ -133,18 +136,58 @@ public class Percolation extends WeightedQuickUnionUF{
     public static void main(String[] args) {
         //tests constructor
         int total = 0;
-        for (int i = 0; i < 2000; i++) {
+        int numTrials = 35;
+        long startTime = System.currentTimeMillis();
+        for (int i = 0; i < numTrials; i++) {
             int gridSize = 20;
+            float temp = 0;
             Percolation p = new Percolation(gridSize);
             while (!p.percolates()) {
                 int rowToOpen = (int) Math.ceil(Math.random() * gridSize);
                 int colToOpen = (int) Math.ceil(Math.random() * gridSize);
                 p.open(rowToOpen, colToOpen);
             }
-            System.out.println("open site count: " + p.numberOfOpenSites());
+//            System.out.println("open site count: " + p.numberOfOpenSites());
             total += p.numberOfOpenSites();
+            temp += p.numberOfOpenSites();
+            System.out.println("percentual de open sites: " + (temp / (gridSize*gridSize)));
+
         }
-            System.out.println("media: " + (total / 2000));
+        long stopTime = System.currentTimeMillis();
+        long elapsedTime = stopTime - startTime;
+        System.out.println("elapsedTime " + (float)elapsedTime / 1000 + "s");
+//        System.out.println("elapsedTime " + elapsedTime + "ms");
+        System.out.println("media: " + (total / numTrials));
+
+
+
+//        In in = new In(args[0]);      // input file
+//        int N = in.readInt();         // N-by-N percolation system
+//        Percolation p = new Percolation(N);
+//
+//        while (!p.percolates()) {
+//            int i = in.readInt();
+//            int j = in.readInt();
+//            p.open(i, j);
+//        }
+//        System.out.println("open site count: " + p.numberOfOpenSites());
+
+
+
+
+
+
+
+
+//        int gridSize = 5;
+//        Percolation p = new Percolation(gridSize);
+//        while (!p.percolates()) {
+//            int rowToOpen = (int) Math.ceil(Math.random() * gridSize);
+//            int colToOpen = (int) Math.ceil(Math.random() * gridSize);
+//            p.open(rowToOpen, colToOpen);
+//        }
+//        System.out.println("open site count: " + p.numberOfOpenSites());
+
 
 //        p.size();
         //tests xyTo1dIndex(int row, int col)
