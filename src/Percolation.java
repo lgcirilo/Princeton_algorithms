@@ -12,15 +12,11 @@ public class Percolation extends WeightedQuickUnionUF{
             throw new IllegalArgumentException("Size must be greater than 0");
         } else {
             this.n = n;
-            opened = new boolean[n * n + 2];
-            for (int i = 1; i <= n; i++) {
-                int virtualTop = n * n;
-                int virtualBottom = n * n + 1;
-                int currentTopRowSite = xyTo1dIndex(1, i);
-                int currentBottomRowSite = xyTo1dIndex(n, i);
-                union(virtualTop, currentTopRowSite);
-                union(virtualBottom, currentBottomRowSite);
-            }
+            int virtualTop = n * n;
+            int virtualBottom = n * n + 1;
+            opened = new boolean[n * n + 2];            
+            opened[virtualTop] = true;
+            opened[virtualBottom] = true;
         }
     }
 
@@ -29,7 +25,18 @@ public class Percolation extends WeightedQuickUnionUF{
 
         int index = xyTo1dIndex(row, col);
         if (!opened[index]) {
+            //checks if sites belongs to top or bottom rows. If so connect to corresponding virtual site.
             opened[index] = true;
+            if (row == 1) {
+                  if (!connected(index, virtualTop)) {
+                      union(index, virtualTop);
+                  }
+            }
+            if (row == n) {
+                  if (!connected(index, virtualBottom)) {
+                      union(index, virtualBottom);
+                  }
+            }
             //check neighbouring sites (top, bottom, left, right) and connect if opened.
             //checking (row, col - 1)
             if (row >= 1 && row <= n && col - 1 >= 1 && col - 1 <= n) {
