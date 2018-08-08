@@ -1,9 +1,4 @@
-/**
- * Created by cyfa on 26/12/2017.
- */
-
 import edu.princeton.cs.algs4.*;
-
 
 public class PercolationStats {
 
@@ -11,8 +6,8 @@ public class PercolationStats {
     int gridSize;
     int numTrials;
 
-    //TODO - not yet implemented
-    public PercolationStats(int n, int trials) {   // perform trials independent experiments on an n-by-n grid
+    //Constructor. Performs independent experiments on an n-by-n grid
+    public PercolationStats(int n, int trials) {
         gridSize = n;
         numTrials = trials;
         openedSitesPercentagePerTrial = new double[trials];
@@ -28,32 +23,23 @@ public class PercolationStats {
         }
     }
 
-
-    //TODO - not yet implemented
     public double mean() {  // sample mean of percolation threshold
         return StdStats.mean(openedSitesPercentagePerTrial);
     }
 
-
-    //TODO - not yet implemented
     public double stddev() { // sample standard deviation of percolation threshold
         return StdStats.stddev(openedSitesPercentagePerTrial);
     }
 
-    //TODO - not yet implemented
     public double confidenceLo() { // low  endpoint of 95% confidence interval
         return mean() - (1.960 * (stddev() / Math.sqrt(numTrials)));
     }
 
-
-    //TODO - not yet implemented
     public double confidenceHi() { // high endpoint of 95% confidence interval
         return mean() + (1.960 * (stddev() / Math.sqrt(numTrials)));
     }
 
-
-
-    public static void main(String[] args) {     // test client
+    public static void main(String[] args) {
         int grid = Integer.parseInt(args[0]);
         int trials = Integer.parseInt(args[1]);
         PercolationStats pS = new PercolationStats(grid, trials);
