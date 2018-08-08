@@ -4,6 +4,8 @@ public class Percolation extends WeightedQuickUnionUF{
 
     private boolean[] opened;
     private int n; //row/column size
+    private int virtualTop;
+    private int virtualBottom;
 
     //Create n-by-n grid, with all sites blocked, plus two extra virtual elements.
     public Percolation (int n) {
@@ -12,8 +14,8 @@ public class Percolation extends WeightedQuickUnionUF{
             throw new IllegalArgumentException("Size must be greater than 0");
         } else {
             this.n = n;
-            int virtualTop = n * n;
-            int virtualBottom = n * n + 1;
+            virtualTop = n * n;
+            virtualBottom = n * n + 1;
             opened = new boolean[n * n + 2];            
             opened[virtualTop] = true;
             opened[virtualBottom] = true;
