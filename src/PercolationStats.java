@@ -2,9 +2,9 @@ import edu.princeton.cs.algs4.*;
 
 public class PercolationStats {
 
-    double[] openedSitesPercentagePerTrial;
-    int gridSize;
-    int numTrials;
+    private double[] openedSitesPercentagePerTrial;
+    private int gridSize;
+    private int numTrials;
 
     //Constructor. Performs independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
@@ -15,8 +15,8 @@ public class PercolationStats {
         for (int i = 0; i < numTrials; i++) {
             Percolation p = new Percolation(gridSize);
             while (!p.percolates()) {
-                int rowToOpen = (int) Math.ceil(StdRandom.random() * gridSize);
-                int colToOpen = (int) Math.ceil(StdRandom.random() * gridSize);
+                int rowToOpen = (int) Math.ceil(StdRandom.uniform() * gridSize);
+                int colToOpen = (int) Math.ceil(StdRandom.uniform() * gridSize);
                 p.open(rowToOpen, colToOpen);
             }
             openedSitesPercentagePerTrial[i] = p.numberOfOpenSites() / Math.pow(gridSize, 2);
