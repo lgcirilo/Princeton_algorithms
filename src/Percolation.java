@@ -1,4 +1,4 @@
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.*;
 
 public class Percolation {
 
@@ -8,7 +8,7 @@ public class Percolation {
     private int virtualTop;
     private int virtualBottom;
 
-    //Create n-by-n grid, with all sites blocked, plus two extra virtual elements.
+    // Create n-by-n grid, with all sites blocked, plus two extra virtual elements.
     public Percolation (int n) {
         if (n <= 0){
             throw new IllegalArgumentException("Size must be greater than 0");
@@ -23,12 +23,12 @@ public class Percolation {
         }
     }
 
-    //Open site (row, col) if it is not open already.
+    // Open site (row, col) if it is not open already.
     public void open(int row, int col) {
 
         int index = xyTo1dIndex(row, col);
         if (!opened[index]) {
-            //checks if sites belongs to top or bottom rows. If so connect to corresponding virtual site.
+            // Checks if sites belongs to top or bottom rows. If so connect to corresponding virtual site.
             opened[index] = true;
             if (row == 1) {
                 if (!unionObject.connected(index, virtualTop)) {
@@ -40,8 +40,8 @@ public class Percolation {
                     unionObject.union(index, virtualBottom);
                 }
             }
-            //check neighbouring sites (top, bottom, left, right) and connect if opened.
-            //checking (row, col - 1)
+            // Check neighbouring sites (top, bottom, left, right) and connect if opened.
+            // Checking (row, col - 1)
             if (row >= 1 && row <= n && col - 1 >= 1 && col - 1 <= n) {
                 int neighborIndex = xyTo1dIndex(row, col -1);
 
@@ -52,7 +52,7 @@ public class Percolation {
                 }
             }
 
-            //checkking (row, col + 1)
+            // Checking (row, col + 1)
             if (row >= 1 && row <= n && col + 1 >= 1 && col + 1 <= n) {
 
                 int neighborIndex = xyTo1dIndex(row, col + 1);
@@ -63,7 +63,7 @@ public class Percolation {
                 }
             }
 
-            //chekcking (row - 1, col)
+            // Checking (row - 1, col)
             if (row - 1 >= 1 && row - 1 <= n && col >= 1 && col <= n) {
 
                 int neighborIndex = xyTo1dIndex(row - 1, col);
@@ -74,7 +74,7 @@ public class Percolation {
                 }
             }
 
-            //checking (row + 1 , col)
+            // Checking (row + 1 , col)
             if (row + 1 >= 1 && row + 1 <= n && col >= 1 && col <= n) {
 
                 int neighborIndex = xyTo1dIndex(row + 1, col);
@@ -87,22 +87,22 @@ public class Percolation {
         }
     }
 
-    //Is site (row, col) open?
+    // Is site (row, col) open?
     public boolean isOpen(int row, int col) {
         int index = xyTo1dIndex(row, col);
         return opened[index];
     }
 
-    //Is site (row, col) full?
+    // Is site (row, col) full?
     public boolean isFull(int row, int col) {
         int OneDCoordinate = xyTo1dIndex(row,col);
         for (int i = 0; i < n; i++) { //loops through top row
-            if ( unionObject.connected(OneDCoordinate, i)) return true;
+            if ( isOpen(row, col) && unionObject.connected(OneDCoordinate, i)) return true;
         }
         return false;
     }
 
-    //Number of open sites.
+    // Number of open sites.
     public int numberOfOpenSites() {
         int result = 0;
         for (int i = 0; i < n*n; i++) {
@@ -112,7 +112,7 @@ public class Percolation {
         return result;
     }
 
-    //Does the system percolate?
+    // Does the system percolate?
     public boolean percolates() {
         for (int i = 1; i <= n; i++) { //loops through bottom row
             if (isFull(n,i)) { return true; }
@@ -120,7 +120,7 @@ public class Percolation {
         return false;
     }
 
-    //Converts from x,y coordinates to WeightedQuickUnionUF 1d array index.
+    // Converts from x,y coordinates to WeightedQuickUnionUF 1d array index.
     private int xyTo1dIndex(int row, int col) {
         int index;
         if (row < 1 || row > n || col < 1 || col > n) {
@@ -132,7 +132,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-
-
+        // not needed for assignment
     }
 }
