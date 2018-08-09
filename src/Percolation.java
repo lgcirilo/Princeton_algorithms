@@ -1,15 +1,16 @@
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import edu.princeton.cs.algs4.*;
 
 public class Percolation {
 
     private WeightedQuickUnionUF unionObject;
     private boolean[] opened;
-    private int n; //row/column size
+    private int n; // row/column size
     private int virtualTop;
     private int virtualBottom;
+    private int openedSites;
 
     // Create n-by-n grid, with all sites blocked, plus two extra virtual elements.
-    public Percolation (int n) {
+    public Percolation(int n) {
         if (n <= 0){
             throw new IllegalArgumentException("Size must be greater than 0");
         } else {
@@ -30,6 +31,7 @@ public class Percolation {
         if (!opened[index]) {
             // Checks if sites belongs to top or bottom rows. If so connect to corresponding virtual site.
             opened[index] = true;
+            openedSites++;
             if (row == 1) {
                 if (!unionObject.connected(index, virtualTop)) {
                     unionObject.union(index, virtualTop);
@@ -96,28 +98,18 @@ public class Percolation {
     // Is site (row, col) full?
     public boolean isFull(int row, int col) {
         int OneDCoordinate = xyTo1dIndex(row,col);
-        for (int i = 0; i < n; i++) { //loops through top row
-            if ( isOpen(row, col) && unionObject.connected(OneDCoordinate, i)) return true;
-        }
+        if ( isOpen(row, col) && unionObject.connected(OneDCoordinate, virtualTop)) return true;
         return false;
     }
 
     // Number of open sites.
     public int numberOfOpenSites() {
-        int result = 0;
-        for (int i = 0; i < n*n; i++) {
-            if (opened[i]) result++;
-        }
-
-        return result;
+        return openedSites;
     }
 
     // Does the system percolate?
     public boolean percolates() {
-        for (int i = 1; i <= n; i++) { //loops through bottom row
-            if (isFull(n,i)) { return true; }
-        }
-        return false;
+        return unionObject.connected(virtualBottom, virtualTop);
     }
 
     // Converts from x,y coordinates to WeightedQuickUnionUF 1d array index.
@@ -132,6 +124,6 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        // not needed for assignment
+        // Main method not needed for assignment
     }
 }
