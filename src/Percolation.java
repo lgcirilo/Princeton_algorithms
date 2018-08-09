@@ -1,7 +1,8 @@
 import edu.princeton.cs.algs4.*;
 
-public class Percolation extends WeightedQuickUnionUF{
+public class Percolation {
 
+    private WeightedQuickUnionUF unionObject;
     private boolean[] opened;
     private int n; //row/column size
     private int virtualTop;
@@ -9,14 +10,14 @@ public class Percolation extends WeightedQuickUnionUF{
 
     //Create n-by-n grid, with all sites blocked, plus two extra virtual elements.
     public Percolation (int n) {
-        super(n * n + 2);
         if (n <= 0){
             throw new IllegalArgumentException("Size must be greater than 0");
         } else {
             this.n = n;
+            unionObject = new WeightedQuickUnionUF(n * n + 2);
             virtualTop = n * n;
             virtualBottom = n * n + 1;
-            opened = new boolean[n * n + 2];            
+            opened = new boolean[n * n + 2];
             opened[virtualTop] = true;
             opened[virtualBottom] = true;
         }
@@ -30,14 +31,14 @@ public class Percolation extends WeightedQuickUnionUF{
             //checks if sites belongs to top or bottom rows. If so connect to corresponding virtual site.
             opened[index] = true;
             if (row == 1) {
-                  if (!connected(index, virtualTop)) {
-                      union(index, virtualTop);
-                  }
+                if (!unionObject.connected(index, virtualTop)) {
+                    unionObject.union(index, virtualTop);
+                }
             }
             if (row == n) {
-                  if (!connected(index, virtualBottom)) {
-                      union(index, virtualBottom);
-                  }
+                if (!unionObject.connected(index, virtualBottom)) {
+                    unionObject.union(index, virtualBottom);
+                }
             }
             //check neighbouring sites (top, bottom, left, right) and connect if opened.
             //checking (row, col - 1)
@@ -45,9 +46,9 @@ public class Percolation extends WeightedQuickUnionUF{
                 int neighborIndex = xyTo1dIndex(row, col -1);
 
                 if (isOpen(row, col -1)) {
-                  if (!connected(index, neighborIndex)) {
-                      union(index, neighborIndex);
-                  }
+                    if (!unionObject.connected(index, neighborIndex)) {
+                        unionObject.union(index, neighborIndex);
+                    }
                 }
             }
 
@@ -56,8 +57,8 @@ public class Percolation extends WeightedQuickUnionUF{
 
                 int neighborIndex = xyTo1dIndex(row, col + 1);
                 if (isOpen(row, col + 1)) {
-                    if (!connected(index, neighborIndex)) {
-                        union(index, neighborIndex);
+                    if (!unionObject.connected(index, neighborIndex)) {
+                        unionObject.union(index, neighborIndex);
                     }
                 }
             }
@@ -67,8 +68,8 @@ public class Percolation extends WeightedQuickUnionUF{
 
                 int neighborIndex = xyTo1dIndex(row - 1, col);
                 if (isOpen(row - 1, col)) {
-                    if (!connected(index, neighborIndex)) {
-                        union(index, neighborIndex);
+                    if (!unionObject.connected(index, neighborIndex)) {
+                        unionObject.union(index, neighborIndex);
                     }
                 }
             }
@@ -78,8 +79,8 @@ public class Percolation extends WeightedQuickUnionUF{
 
                 int neighborIndex = xyTo1dIndex(row + 1, col);
                 if (isOpen(row + 1, col)) {
-                    if (!connected(index, neighborIndex)) {
-                        union(index, neighborIndex);
+                    if (!unionObject.connected(index, neighborIndex)) {
+                        unionObject.union(index, neighborIndex);
                     }
                 }
             }
@@ -96,7 +97,7 @@ public class Percolation extends WeightedQuickUnionUF{
     public boolean isFull(int row, int col) {
         int OneDCoordinate = xyTo1dIndex(row,col);
         for (int i = 0; i < n; i++) { //loops through top row
-            if ( connected(OneDCoordinate, i)) return true;
+            if ( unionObject.connected(OneDCoordinate, i)) return true;
         }
         return false;
     }
