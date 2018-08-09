@@ -7,7 +7,7 @@ public class PercolationStats {
     private int gridSize;
     private int numTrials;
 
-    //Constructor. Performs independent experiments on an n-by-n grid
+    // Constructor. Performs independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
         gridSize = n;
         numTrials = trials;
@@ -24,7 +24,7 @@ public class PercolationStats {
         }
     }
 
-    public double mean() {  // sample mean of percolation threshold
+    public double mean() {  // Sample mean of percolation threshold
         return StdStats.mean(openedSitesPercentagePerTrial);
     }
 
