@@ -19,8 +19,8 @@ public class Percolation {
             virtualTop = n * n;
             virtualBottom = n * n + 1;
             opened = new boolean[n * n + 2];
-            opened[virtualTop] = true;
-            opened[virtualBottom] = true;
+//            opened[virtualTop] = true;
+//            opened[virtualBottom] = true;
         }
     }
 
@@ -32,24 +32,20 @@ public class Percolation {
             // Checks if sites belongs to top or bottom rows. If so connect to corresponding virtual site.
             opened[index] = true;
             openedSites++;
-            if (row == 1) {
-                if (!unionObject.connected(index, virtualTop)) {
-                    unionObject.union(index, virtualTop);
-                }
-            }
-            if (row == n) {
-                if (!unionObject.connected(index, virtualBottom)) {
-                    unionObject.union(index, virtualBottom);
-                }
-            }
             // Check neighbouring sites (top, bottom, left, right) and connect if opened.
             // Checking (row, col - 1)
             if (row >= 1 && row <= n && col - 1 >= 1 && col - 1 <= n) {
                 int neighborIndex = xyTo1dIndex(row, col -1);
 
-                if (isOpen(row, col -1)) {
+                if (isFull(row, col -1)) {
                     if (!unionObject.connected(index, neighborIndex)) {
                         unionObject.union(index, neighborIndex);
+                    }
+                } else {
+                    if (isOpen(row, col - 1)) {
+                        if (!unionObject.connected(index, neighborIndex)) {
+                            unionObject.union(index, neighborIndex);
+                        }
                     }
                 }
             }
@@ -58,9 +54,15 @@ public class Percolation {
             if (row >= 1 && row <= n && col + 1 >= 1 && col + 1 <= n) {
 
                 int neighborIndex = xyTo1dIndex(row, col + 1);
-                if (isOpen(row, col + 1)) {
+                if (isFull(row, col + 1)) {
                     if (!unionObject.connected(index, neighborIndex)) {
                         unionObject.union(index, neighborIndex);
+                    }
+                } else {
+                    if (isOpen(row, col + 1)) {
+                        if (!unionObject.connected(index, neighborIndex)) {
+                            unionObject.union(index, neighborIndex);
+                        }
                     }
                 }
             }
@@ -69,9 +71,15 @@ public class Percolation {
             if (row - 1 >= 1 && row - 1 <= n && col >= 1 && col <= n) {
 
                 int neighborIndex = xyTo1dIndex(row - 1, col);
-                if (isOpen(row - 1, col)) {
+                if (isFull(row - 1, col)) {
                     if (!unionObject.connected(index, neighborIndex)) {
                         unionObject.union(index, neighborIndex);
+                    }
+                } else {
+                    if (isOpen(row - 1, col)) {
+                        if (!unionObject.connected(index, neighborIndex)) {
+                            unionObject.union(index, neighborIndex);
+                        }
                     }
                 }
             }
@@ -80,10 +88,26 @@ public class Percolation {
             if (row + 1 >= 1 && row + 1 <= n && col >= 1 && col <= n) {
 
                 int neighborIndex = xyTo1dIndex(row + 1, col);
-                if (isOpen(row + 1, col)) {
+                if (isFull(row + 1, col)) {
                     if (!unionObject.connected(index, neighborIndex)) {
                         unionObject.union(index, neighborIndex);
                     }
+                } else {
+                    if (isOpen(row + 1, col)) {
+                        if (!unionObject.connected(index, neighborIndex)) {
+                            unionObject.union(index, neighborIndex);
+                        }
+                    }
+                }
+            }
+            if (row == 1) {
+                if (!unionObject.connected(index, virtualTop)) {
+                    unionObject.union(virtualTop, index);
+                }
+            }
+            if (row == n) {
+                if (!unionObject.connected(index, virtualBottom)) {
+                    unionObject.union(virtualBottom, index);
                 }
             }
         }
@@ -97,8 +121,8 @@ public class Percolation {
 
     // Is site (row, col) full?
     public boolean isFull(int row, int col) {
-        int OneDCoordinate = xyTo1dIndex(row,col);
-        if ( isOpen(row, col) && unionObject.connected(OneDCoordinate, virtualTop)) return true;
+        int oneDCoordinate = xyTo1dIndex(row,col);
+        if ( isOpen(row, col) && unionObject.connected(oneDCoordinate, virtualTop)) return true;
         return false;
     }
 
