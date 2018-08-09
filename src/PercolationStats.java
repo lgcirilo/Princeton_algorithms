@@ -6,8 +6,10 @@ public class PercolationStats {
     private double[] openedSitesPercentagePerTrial;
     private int gridSize;
     private int numTrials;
+    private double mean;
+    private double stddev;
 
-    // Constructor. Performs independent experiments on an n-by-n grid
+    //Constructor. Performs independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
         if (n <=0 || trials <= 0) {
             throw new IllegalArgumentException("grid size and number of trials cannot be smaller than one");
@@ -28,7 +30,7 @@ public class PercolationStats {
         }
     }
 
-    public double mean() {  // Sample mean of percolation threshold
+    public double mean() {  // sample mean of percolation threshold
         return StdStats.mean(openedSitesPercentagePerTrial);
     }
 
@@ -37,19 +39,21 @@ public class PercolationStats {
     }
 
     public double confidenceLo() { // low  endpoint of 95% confidence interval
-        return mean() - (1.960 * (stddev() / Math.sqrt(numTrials)));
+        return mean - (1.960 * (stddev / Math.sqrt(numTrials)));
     }
 
     public double confidenceHi() { // high endpoint of 95% confidence interval
-        return mean() + (1.960 * (stddev() / Math.sqrt(numTrials)));
+        return mean + (1.960 * (stddev / Math.sqrt(numTrials)));
     }
 
     public static void main(String[] args) {
         int grid = Integer.parseInt(args[0]);
         int trials = Integer.parseInt(args[1]);
         PercolationStats pS = new PercolationStats(grid, trials);
-        System.out.println("mean                    = " + pS.mean());
-        System.out.println("stddev                  = " + pS.stddev());
+        pS.mean = pS.mean();
+        pS.stddev = pS.stddev();
+        System.out.println("mean                    = " + pS.mean);
+        System.out.println("stddev                  = " + pS.stddev);
         System.out.println("95% confidence interval = [" + pS.confidenceLo() + ", " + pS.confidenceHi() + "]");
     }
 }
