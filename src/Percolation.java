@@ -3,6 +3,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     private WeightedQuickUnionUF unionObject;
+    private WeightedQuickUnionUF isFullObject;
     private boolean[] opened;
     private int n; // row/column size
     private int virtualTop;
@@ -16,6 +17,7 @@ public class Percolation {
         } else {
             this.n = n;
             unionObject = new WeightedQuickUnionUF(n * n + 2);
+            isFullObject = new WeightedQuickUnionUF(n * n + 2);
             virtualTop = n * n;
             virtualBottom = n * n + 1;
             opened = new boolean[n * n + 2];
@@ -37,72 +39,54 @@ public class Percolation {
             if (row >= 1 && row <= n && col - 1 >= 1 && col - 1 <= n) {
                 int neighborIndex = xyTo1dIndex(row, col -1);
 
-                if (isFull(row, col -1)) {
-                    if (!unionObject.connected(index, neighborIndex)) {
-                        unionObject.union(index, neighborIndex);
-                    }
-                } else {
                     if (isOpen(row, col - 1)) {
                         if (!unionObject.connected(index, neighborIndex)) {
                             unionObject.union(index, neighborIndex);
+                            isFullObject.union(index, neighborIndex);
                         }
                     }
-                }
             }
 
             // Checking (row, col + 1)
             if (row >= 1 && row <= n && col + 1 >= 1 && col + 1 <= n) {
-
                 int neighborIndex = xyTo1dIndex(row, col + 1);
-                if (isFull(row, col + 1)) {
-                    if (!unionObject.connected(index, neighborIndex)) {
-                        unionObject.union(index, neighborIndex);
-                    }
-                } else {
+
                     if (isOpen(row, col + 1)) {
                         if (!unionObject.connected(index, neighborIndex)) {
                             unionObject.union(index, neighborIndex);
+                            isFullObject.union(index, neighborIndex);
                         }
                     }
-                }
             }
 
             // Checking (row - 1, col)
             if (row - 1 >= 1 && row - 1 <= n && col >= 1 && col <= n) {
 
                 int neighborIndex = xyTo1dIndex(row - 1, col);
-                if (isFull(row - 1, col)) {
-                    if (!unionObject.connected(index, neighborIndex)) {
-                        unionObject.union(index, neighborIndex);
-                    }
-                } else {
                     if (isOpen(row - 1, col)) {
                         if (!unionObject.connected(index, neighborIndex)) {
                             unionObject.union(index, neighborIndex);
+                            isFullObject.union(index, neighborIndex);
                         }
                     }
-                }
             }
 
             // Checking (row + 1 , col)
             if (row + 1 >= 1 && row + 1 <= n && col >= 1 && col <= n) {
 
                 int neighborIndex = xyTo1dIndex(row + 1, col);
-                if (isFull(row + 1, col)) {
-                    if (!unionObject.connected(index, neighborIndex)) {
-                        unionObject.union(index, neighborIndex);
-                    }
-                } else {
                     if (isOpen(row + 1, col)) {
                         if (!unionObject.connected(index, neighborIndex)) {
                             unionObject.union(index, neighborIndex);
+                            isFullObject.union(index, neighborIndex);
                         }
                     }
-                }
             }
+
             if (row == 1) {
                 if (!unionObject.connected(index, virtualTop)) {
                     unionObject.union(virtualTop, index);
+                    isFullObject.union(virtualTop, index);
                 }
             }
             if (row == n) {
@@ -122,7 +106,7 @@ public class Percolation {
     // Is site (row, col) full?
     public boolean isFull(int row, int col) {
         int oneDCoordinate = xyTo1dIndex(row,col);
-        if ( isOpen(row, col) && unionObject.connected(oneDCoordinate, virtualTop)) return true;
+        if ( isOpen(row, col) && isFullObject.connected(oneDCoordinate, virtualTop)) return true;
         return false;
     }
 
