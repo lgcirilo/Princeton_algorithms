@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
+import edu.princeton.cs.algs4.StopwatchCPU;
 
 public class PercolationStats {
 
@@ -28,12 +29,11 @@ public class PercolationStats {
                     p.open(rowToOpen, colToOpen);
                 }
                 openedSitesPercentagePerTrial[i] = p.numberOfOpenSites() / Math.pow(gridSize, 2);
-                mean = StdStats.mean(openedSitesPercentagePerTrial);
-                stddev = StdStats.stddev(openedSitesPercentagePerTrial);
-                confidenceLo = mean - (1.960 * (stddev / Math.sqrt(numTrials)));
-                confidenceHi = mean + (1.960 * (stddev / Math.sqrt(numTrials)));
-
             }
+            mean = StdStats.mean(openedSitesPercentagePerTrial);
+            stddev = StdStats.stddev(openedSitesPercentagePerTrial);
+            confidenceLo = mean - (1.960 * (stddev / Math.sqrt(numTrials)));
+            confidenceHi = mean + (1.960 * (stddev / Math.sqrt(numTrials)));
         }
     }
 
@@ -54,6 +54,7 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {
+        StopwatchCPU sw = new StopwatchCPU();
         int grid = Integer.parseInt(args[0]);
         int trials = Integer.parseInt(args[1]);
         PercolationStats pS = new PercolationStats(grid, trials);
@@ -62,5 +63,6 @@ public class PercolationStats {
         System.out.println("mean                    = " + pS.mean());
         System.out.println("stddev                  = " + pS.stddev());
         System.out.println("95% confidence interval = [" + pS.confidenceLo() + ", " + pS.confidenceHi() + "]");
+        System.out.println("elapsed time: " + sw.elapsedTime());
     }
 }
