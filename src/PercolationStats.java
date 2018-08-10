@@ -31,11 +31,13 @@ public class PercolationStats {
     }
 
     public double mean() {  // sample mean of percolation threshold
-        return StdStats.mean(openedSitesPercentagePerTrial);
+        mean = StdStats.mean(openedSitesPercentagePerTrial);
+        return mean;
     }
 
     public double stddev() { // sample standard deviation of percolation threshold
-        return StdStats.stddev(openedSitesPercentagePerTrial);
+        stddev = StdStats.stddev(openedSitesPercentagePerTrial);
+        return stddev;
     }
 
     public double confidenceLo() { // low  endpoint of 95% confidence interval
@@ -50,10 +52,10 @@ public class PercolationStats {
         int grid = Integer.parseInt(args[0]);
         int trials = Integer.parseInt(args[1]);
         PercolationStats pS = new PercolationStats(grid, trials);
-        pS.mean = pS.mean();
-        pS.stddev = pS.stddev();
-        System.out.println("mean                    = " + pS.mean);
-        System.out.println("stddev                  = " + pS.stddev);
+//        pS.mean = pS.mean();
+//        pS.stddev = pS.stddev();
+        System.out.println("mean                    = " + pS.mean());
+        System.out.println("stddev                  = " + pS.stddev());
         System.out.println("95% confidence interval = [" + pS.confidenceLo() + ", " + pS.confidenceHi() + "]");
     }
 }
