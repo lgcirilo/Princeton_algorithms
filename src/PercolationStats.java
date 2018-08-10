@@ -14,7 +14,7 @@ public class PercolationStats {
     private double confidenceHi;
     private double temp;
     private double totalSites;
-    public static final double confidence95 = 1.960;
+    private static final double confidence95 = 1.960;
 
     //Constructor. Performs independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
