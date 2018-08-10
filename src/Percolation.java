@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     private WeightedQuickUnionUF unionObject;
-    public WeightedQuickUnionUF isFullObject;
+    private WeightedQuickUnionUF isFullObject;
     private boolean[] opened;
     private int n; // row/column size
     private int virtualTop;
