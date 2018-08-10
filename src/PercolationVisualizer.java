@@ -82,6 +82,16 @@ public class PercolationVisualizer {
             perc.open(i, j);
             draw(perc, N);
             StdDraw.show(DELAY);
+//            if (i==46 && j == 4) {
+//                System.out.println("abriu (" + i + "," + j + ")");
+//                break;
+//            }
+//            if (i==46 && j == 3) {
+//                System.out.println("abriu (" + i + "," + j + ")");
+//                System.out.println("connected: " + perc.isFullObject.connected(perc.xyTo1dIndex(46,3), perc.xyTo1dIndex(46,4)));
+//                break;
+//            }
         }
+        System.out.println("fegfed");
     }
 }

@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
 
     private WeightedQuickUnionUF unionObject;
-    private WeightedQuickUnionUF isFullObject;
+    public WeightedQuickUnionUF isFullObject;
     private boolean[] opened;
     private int n; // row/column size
     private int virtualTop;
@@ -38,61 +38,45 @@ public class Percolation {
             // Checking (row, col - 1)
             if (row >= 1 && row <= n && col - 1 >= 1 && col - 1 <= n) {
                 int neighborIndex = xyTo1dIndex(row, col -1);
-
-                    if (isOpen(row, col - 1)) {
-                        if (!unionObject.connected(index, neighborIndex)) {
-                            unionObject.union(index, neighborIndex);
-                            isFullObject.union(index, neighborIndex);
-                        }
-                    }
+                if (isOpen(row, col - 1)) {
+                        unionObject.union(index, neighborIndex);
+                        isFullObject.union(index, neighborIndex);
+                }
             }
 
             // Checking (row, col + 1)
             if (row >= 1 && row <= n && col + 1 >= 1 && col + 1 <= n) {
                 int neighborIndex = xyTo1dIndex(row, col + 1);
-
-                    if (isOpen(row, col + 1)) {
-                        if (!unionObject.connected(index, neighborIndex)) {
-                            unionObject.union(index, neighborIndex);
-                            isFullObject.union(index, neighborIndex);
-                        }
-                    }
+                if (isOpen(row, col + 1)) {
+                        unionObject.union(index, neighborIndex);
+                        isFullObject.union(index, neighborIndex);
+                }
             }
 
             // Checking (row - 1, col)
             if (row - 1 >= 1 && row - 1 <= n && col >= 1 && col <= n) {
-
                 int neighborIndex = xyTo1dIndex(row - 1, col);
-                    if (isOpen(row - 1, col)) {
-                        if (!unionObject.connected(index, neighborIndex)) {
-                            unionObject.union(index, neighborIndex);
-                            isFullObject.union(index, neighborIndex);
-                        }
-                    }
+                if (isOpen(row - 1, col)) {
+                        unionObject.union(index, neighborIndex);
+                        isFullObject.union(index, neighborIndex);
+                }
             }
 
             // Checking (row + 1 , col)
             if (row + 1 >= 1 && row + 1 <= n && col >= 1 && col <= n) {
-
                 int neighborIndex = xyTo1dIndex(row + 1, col);
                     if (isOpen(row + 1, col)) {
-                        if (!unionObject.connected(index, neighborIndex)) {
                             unionObject.union(index, neighborIndex);
                             isFullObject.union(index, neighborIndex);
-                        }
                     }
             }
 
             if (row == 1) {
-                if (!unionObject.connected(index, virtualTop)) {
-                    unionObject.union(virtualTop, index);
-                    isFullObject.union(virtualTop, index);
-                }
+                    unionObject.union(index, virtualTop);
+                    isFullObject.union(index, virtualTop);
             }
             if (row == n) {
-                if (!unionObject.connected(index, virtualBottom)) {
                     unionObject.union(virtualBottom, index);
-                }
             }
         }
     }
