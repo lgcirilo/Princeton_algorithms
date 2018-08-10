@@ -8,6 +8,8 @@ public class PercolationStats {
     private int numTrials;
     private double mean;
     private double stddev;
+    private double confidenceLo;
+    private double confidenceHi;
 
     //Constructor. Performs independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
@@ -26,26 +28,29 @@ public class PercolationStats {
                     p.open(rowToOpen, colToOpen);
                 }
                 openedSitesPercentagePerTrial[i] = p.numberOfOpenSites() / Math.pow(gridSize, 2);
+                mean = StdStats.mean(openedSitesPercentagePerTrial);
+                stddev = StdStats.stddev(openedSitesPercentagePerTrial);
+                confidenceLo = mean - (1.960 * (stddev / Math.sqrt(numTrials)));
+                confidenceHi = mean + (1.960 * (stddev / Math.sqrt(numTrials)));
+
             }
         }
     }
 
     public double mean() {  // sample mean of percolation threshold
-        mean = StdStats.mean(openedSitesPercentagePerTrial);
         return mean;
     }
 
     public double stddev() { // sample standard deviation of percolation threshold
-        stddev = StdStats.stddev(openedSitesPercentagePerTrial);
         return stddev;
     }
 
     public double confidenceLo() { // low  endpoint of 95% confidence interval
-        return mean - (1.960 * (stddev / Math.sqrt(numTrials)));
+        return confidenceLo;
     }
 
     public double confidenceHi() { // high endpoint of 95% confidence interval
-        return mean + (1.960 * (stddev / Math.sqrt(numTrials)));
+        return confidenceHi;
     }
 
     public static void main(String[] args) {
