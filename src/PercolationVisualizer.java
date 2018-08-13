@@ -92,6 +92,5 @@ public class PercolationVisualizer {
 //                break;
 //            }
         }
-        System.out.println("fegfed");
     }
 }
