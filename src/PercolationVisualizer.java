@@ -4,6 +4,7 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdRandom;
 
 /****************************************************************************
 *  Compilation:  javac PercolationVisualizer.java
@@ -28,7 +29,7 @@ import java.awt.Font;
 public class PercolationVisualizer {
 
     // delay in miliseconds (controls animation speed)
-    private static final int DELAY = 1;
+    private static final int DELAY = 0;
 
     // draw N-by-N percolation system
     public static void draw(Percolation perc, int N) {
@@ -66,8 +67,9 @@ public class PercolationVisualizer {
     }
 
     public static void main(String[] args) {
-        In in = new In(args[0]);      // input file
-        int N = in.readInt();         // N-by-N percolation system
+//        In in = new In(args[0]);      // input file
+        int N = 500;         // N-by-N percolation system
+        StdDraw.setCanvasSize(900, 900);
 
         // turn on animation mode
         StdDraw.show(0);
@@ -76,21 +78,12 @@ public class PercolationVisualizer {
         Percolation perc = new Percolation(N);
         draw(perc, N);
         StdDraw.show(DELAY);
-        while (!in.isEmpty()) {
-            int i = in.readInt();
-            int j = in.readInt();
-            perc.open(i, j);
+        while (!perc.percolates()) {
+            int rowToOpen = (int) Math.ceil(StdRandom.uniform() * N);
+            int colToOpen = (int) Math.ceil(StdRandom.uniform() * N);
+            perc.open(rowToOpen, colToOpen);
             draw(perc, N);
             StdDraw.show(DELAY);
-//            if (i==46 && j == 4) {
-//                System.out.println("abriu (" + i + "," + j + ")");
-//                break;
-//            }
-//            if (i==46 && j == 3) {
-//                System.out.println("abriu (" + i + "," + j + ")");
-//                System.out.println("connected: " + perc.isFullObject.connected(perc.xyTo1dIndex(46,3), perc.xyTo1dIndex(46,4)));
-//                break;
-//            }
         }
     }
 }
