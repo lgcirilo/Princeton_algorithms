@@ -2,12 +2,12 @@
  * Created by cyfa on 13/08/2018.
  */
 
-import java.util.Iterator;
+
 
 //Use resizing arrays - constant amortized time.
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
-    
+
     // construct an empty randomized queue
     public RandomizedQueue() {}
 
