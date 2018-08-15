@@ -13,11 +13,8 @@ import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-//    private Item[] arr;
-//    private int N = 0;
-    // fields below are public for test purposes. Should be private for finished project.
-    public Item[] arr;
-    public int N = 0;
+    private Item[] arr;
+    private int N = 0;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
