@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 
 // Use resizing arrays - constant amortized time.
+// Change implementation to linked lists.
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 

@@ -5,6 +5,7 @@ import java.util.Iterator;
  * Created by cyfa on 13/08/2018.
  */
 //Use linked lists - constant time worst-case
+// Change implementation to resizing arrays.
 
 public class Deque<Item> implements Iterable<Item> {
 
