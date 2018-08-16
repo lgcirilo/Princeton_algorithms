@@ -46,10 +46,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         int index = (int) Math.floor(StdRandom.uniform() * n);
         Item dequeuedItem = arr[index];
         arr[index] = null;
-        n--;
         if (index != arr.length - 1) {
-            arr[index] = arr[arr.length - 1];
-            arr[arr.length - 1] =  null;
+            arr[index] = arr[n - 1];
+            arr[n - 1] =  null;
         }
 //        for (int i = index; i < arr.length - 1 ; i++) {
 //            if (arr[i] == null) {
@@ -57,10 +56,21 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 //                arr[i+1] = null;
 //            }
 //        }
+        n--;
         if (n > 0 && n == arr.length / 4) {
             resize(arr.length/2);
         }
         return dequeuedItem;
+    }
+
+    public void printArr() {
+        for (int i = 0; i < n; i++) {
+            System.out.print(arr[i] + " - ");
+        }
+        System.out.println();
+        for (Item i: arr) {
+            System.out.print(i + " - ");
+        }
     }
 
     // return a random item (but do not remove it)
@@ -98,5 +108,47 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // unit testing (optional)
     public static void main(String[] args) {
+        RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
+        rq.enqueue(1);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.enqueue(2);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.enqueue(3);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.enqueue(4);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.enqueue(5);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.enqueue(6);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.enqueue(7);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.enqueue(8);
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.dequeue();
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.dequeue();
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.dequeue();
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.dequeue();
+        rq.printArr();
+        System.out.println("\n-----------------");
+        rq.dequeue();
+        rq.printArr();System.out.println("\n-----------------");
+        rq.dequeue();
+        rq.printArr();
+
     }
 }
