@@ -47,12 +47,16 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         Item dequeuedItem = arr[index];
         arr[index] = null;
         n--;
-        for (int i = 0; i < arr.length - 1 ; i++) {
-            if (arr[i] == null) {
-                arr[i] = arr[i+1];
-                arr[i+1] = null;
-            }
+        if (index != arr.length - 1) {
+            arr[index] = arr[arr.length - 1];
+            arr[arr.length - 1] =  null;
         }
+//        for (int i = index; i < arr.length - 1 ; i++) {
+//            if (arr[i] == null) {
+//                arr[i] = arr[i+1];
+//                arr[i+1] = null;
+//            }
+//        }
         if (n > 0 && n == arr.length / 4) {
             resize(arr.length/2);
         }
@@ -94,6 +98,5 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // unit testing (optional)
     public static void main(String[] args) {
-
     }
 }
