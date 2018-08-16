@@ -1,10 +1,10 @@
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Created by cyfa on 13/08/2018.
  */
-//Use linked lists - constant time worst-case
+// Use linked lists - constant time worst-case
 // Change implementation to resizing arrays.
 
 public class Deque<Item> implements Iterable<Item> {
@@ -36,6 +36,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the front
     public void addFirst(Item item) {
+        if (item == null) { throw new IllegalArgumentException(); }
         Node newNode = new Node();
         newNode.item = item;
         Node current = newNode;
@@ -45,18 +46,24 @@ public class Deque<Item> implements Iterable<Item> {
 
     // add the item to the end
     public void addLast(Item item) {
-        Node current = first;
+        if (item == null) { throw new IllegalArgumentException(); }
         Node newNode = new Node();
         newNode.item = item;
-        while (current.next != null) {
-            current = current.next;
+        if (first == null) {
+            first = newNode;
+        } else {
+            Node current = first;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.next = null;
         }
-        current.next = newNode;
-        newNode.next = null;
     }
 
     // remove and return the item from the front
     public Item removeFirst() {
+        if (isEmpty()) { throw new NoSuchElementException(); }
         Item removedElement = first.item;
         first = first.next;
         return removedElement;
@@ -64,13 +71,19 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the end
     public Item removeLast() {
+        if (isEmpty()) { throw new NoSuchElementException(); }
         Item removedElement;
         Node current = first;
-        while (current.next.next != null) {
-            current = current.next;
+        if (current.next == null) {
+            removedElement = current.item;
+            first = null;
+        } else {
+            while (current.next.next != null) {
+                current = current.next;
+            }
+            removedElement = current.next.item;
+            current.next = null;
         }
-        removedElement = current.next.item;
-        current.next = null;
         return removedElement;
     }
 
@@ -80,9 +93,9 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     private class DequeIterator implements Iterator<Item> {
-         private Node current = first;
+        private Node current = first;
 
-        public boolean hasNext () { return current != null;}
+        public boolean hasNext() { return current != null; }
 
         public void remove() {
             throw new UnsupportedOperationException("Operation not supported");
@@ -97,26 +110,27 @@ public class Deque<Item> implements Iterable<Item> {
 
     // unit testing (optional)
     public static void main(String[] args) {
-        Deque<String> myDeque = new Deque<String>();
-        myDeque.addFirst("primeiro");
-        myDeque.addFirst("segundo");
-        myDeque.addFirst("terceiro");
-        myDeque.addLast("second to last");
-        myDeque.addLast("last");
-        System.out.println(myDeque.size());
-        for (String i: myDeque) {
-            System.out.println(i);
-        }
-        System.out.println("removed " + myDeque.removeFirst());
-        System.out.println(myDeque.size());
-        for (String i: myDeque) {
-            System.out.println(i);
-        }
-        System.out.println("removed " + myDeque.removeLast());
-        System.out.println(myDeque.size());
-        for (String i: myDeque) {
-            System.out.println(i);
-        }
+//        Deque<String> myDeque = new Deque<String>();
+//        myDeque.addFirst("primeiro");
+//        myDeque.addFirst("segundo");
+//        myDeque.addFirst("terceiro");
+//        myDeque.addLast("second to last");
+//        myDeque.addLast("last");
+//        System.out.println(myDeque.size());
+//        for (String i: myDeque) {
+//            System.out.println(i);
+//        }
+//        System.out.println("removed " + myDeque.removeFirst());
+//        System.out.println(myDeque.size());
+//        for (String i: myDeque) {
+//            System.out.println(i);
+//        }
+//        System.out.println("removed " + myDeque.removeLast());
+//        System.out.println(myDeque.size());
+//        for (String i: myDeque) {
+//            System.out.println(i);
+//        }
+
     }
 }
 

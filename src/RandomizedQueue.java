@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  * Created by cyfa on 13/08/2018.
@@ -14,7 +15,7 @@ import java.util.Iterator;
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Item[] arr;
-    private int N = 0;
+    private int n = 0;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
@@ -22,36 +23,37 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     // is the randomized queue empty?
-    public boolean isEmpty() { return N == 0; }
+    public boolean isEmpty() { return n == 0; }
 
     // return the number of items on the randomized queue
-    public int size() { return arr.length; }
+    public int size() { return n; }
 
     // add the item
     public void enqueue(Item item) {
         if (item == null) {
             throw new IllegalArgumentException();
         } else {
-            if (arr.length == N) {
+            if (arr.length == n) {
                 resize(arr.length*2);
             }
-            arr[N++] = item;
+            arr[n++] = item;
         }
     }
 
     // remove and return a random item
     public Item dequeue() {
-        int index = (int) Math.floor(StdRandom.uniform() * N);
+        if (isEmpty()) { throw new NoSuchElementException(); }
+        int index = (int) Math.floor(StdRandom.uniform() * n);
         Item dequeuedItem = arr[index];
         arr[index] = null;
-        N--;
+        n--;
         for (int i = 0; i < arr.length - 1 ; i++) {
             if (arr[i] == null) {
                 arr[i] = arr[i+1];
                 arr[i+1] = null;
             }
         }
-        if (N > 0 && N == arr.length / 4) {
+        if (n > 0 && n == arr.length / 4) {
             resize(arr.length/2);
         }
         return dequeuedItem;
@@ -59,20 +61,24 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return a random item (but do not remove it)
     public Item sample() {
-        int index = (int) Math.floor(StdRandom.uniform() * N);
+        if (isEmpty()) { throw new NoSuchElementException(); }
+        int index = (int) Math.floor(StdRandom.uniform() * n);
         return arr[index];
     }
 
     // return an independent iterator over items in random order
-    public Iterator<Item> iterator() { return new RandomizedQueueIterator();}
+    public Iterator<Item> iterator() {
+        StdRandom.shuffle(arr, 0, n);
+        return new RandomizedQueueIterator();
+    }
 
 
     // resizes the array as needed. Called when we add an element to a full array or when we remove an elemente from an
     // array at 25% capacity. Check these conditions in methods enqueue() and dequeue().
     private void resize(int capacity) {
-        if (capacity >= N) {
+        if (capacity >= n) {
             Item[] temp =  (Item[]) new Object[capacity];
-            for (int i = 0; i < arr.length; i++) {
+            for (int i = 0; i < n; i++) {
                 temp[i] = arr[i];
             }
             arr = temp;
@@ -82,33 +88,12 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     private class RandomizedQueueIterator implements Iterator<Item> {
         private int i = 0;
         public Item next() { return arr[i++]; }
-        public boolean hasNext() { return i < N; }
+        public boolean hasNext() { return i < n; }
         public void remove() { throw new UnsupportedOperationException("Operation not supported."); }
     }
 
     // unit testing (optional)
     public static void main(String[] args) {
-        RandomizedQueue<Integer> myRD = new RandomizedQueue<Integer>();
-//        System.out.println(myRD.size());
-        myRD.enqueue(1);
-//        System.out.println(myRD.size());
-        myRD.enqueue(22);
-//        System.out.println(myRD.size());
-        myRD.enqueue(333);
-//        System.out.println(myRD.size());
-        myRD.enqueue(444);
-//        System.out.println(myRD.size());
-        myRD.enqueue(555);
-//        System.out.println(myRD.size());
-        System.out.println("Dequeueing " + myRD.dequeue());
-        System.out.println("Dequeueing " + myRD.dequeue());
-        System.out.println("Array after dequeue");
-        System.out.println("-------------------");
-        for (Integer i: myRD) {
-            System.out.println(i);
-        }
-        System.out.println();
-        System.out.println();
-        System.out.println();
+
     }
 }
