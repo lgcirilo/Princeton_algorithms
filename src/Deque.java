@@ -1,15 +1,16 @@
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
  * Created by cyfa on 13/08/2018.
  */
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 // Use linked lists - constant time worst-case
-// Change implementation to resizing arrays.
 
 public class Deque<Item> implements Iterable<Item> {
 
     private Node first;
+    private int size = 0;
 
     private class Node {
         Item item;
@@ -27,10 +28,6 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return the number of items on the deque
     public int size() {
-        int size = 0;
-        for (Item i: this) {
-            size++;
-        }
         return size;
     }
 
@@ -42,6 +39,7 @@ public class Deque<Item> implements Iterable<Item> {
         Node current = newNode;
         current.next = first;
         first = current;
+        size++;
     }
 
     // add the item to the end
@@ -59,6 +57,7 @@ public class Deque<Item> implements Iterable<Item> {
             current.next = newNode;
             newNode.next = null;
         }
+        size++;
     }
 
     // remove and return the item from the front
@@ -66,6 +65,7 @@ public class Deque<Item> implements Iterable<Item> {
         if (isEmpty()) { throw new NoSuchElementException(); }
         Item removedElement = first.item;
         first = first.next;
+        size--;
         return removedElement;
     }
 
@@ -84,6 +84,7 @@ public class Deque<Item> implements Iterable<Item> {
             removedElement = current.next.item;
             current.next = null;
         }
+        size--;
         return removedElement;
     }
 
@@ -102,6 +103,7 @@ public class Deque<Item> implements Iterable<Item> {
         }
 
         public Item next() {
+            if (current == null) { throw new NoSuchElementException(); }
             Item item = current.item;
             current = current.next;
             return item;
@@ -109,28 +111,6 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // unit testing (optional)
-    public static void main(String[] args) {
-//        Deque<String> myDeque = new Deque<String>();
-//        myDeque.addFirst("primeiro");
-//        myDeque.addFirst("segundo");
-//        myDeque.addFirst("terceiro");
-//        myDeque.addLast("second to last");
-//        myDeque.addLast("last");
-//        System.out.println(myDeque.size());
-//        for (String i: myDeque) {
-//            System.out.println(i);
-//        }
-//        System.out.println("removed " + myDeque.removeFirst());
-//        System.out.println(myDeque.size());
-//        for (String i: myDeque) {
-//            System.out.println(i);
-//        }
-//        System.out.println("removed " + myDeque.removeLast());
-//        System.out.println(myDeque.size());
-//        for (String i: myDeque) {
-//            System.out.println(i);
-//        }
-
-    }
+    public static void main(String[] args) { }
 }
 
