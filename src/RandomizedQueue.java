@@ -1,16 +1,12 @@
-import edu.princeton.cs.algs4.StdRandom;
-
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-
 /**
  * Created by cyfa on 13/08/2018.
  */
 
-
+import edu.princeton.cs.algs4.StdRandom;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 // Use resizing arrays - constant amortized time.
-// Change implementation to linked lists.
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
@@ -50,27 +46,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             arr[index] = arr[n - 1];
             arr[n - 1] =  null;
         }
-//        for (int i = index; i < arr.length - 1 ; i++) {
-//            if (arr[i] == null) {
-//                arr[i] = arr[i+1];
-//                arr[i+1] = null;
-//            }
-//        }
         n--;
         if (n > 0 && n == arr.length / 4) {
             resize(arr.length/2);
         }
         return dequeuedItem;
-    }
-
-    public void printArr() {
-        for (int i = 0; i < n; i++) {
-            System.out.print(arr[i] + " - ");
-        }
-        System.out.println();
-        for (Item i: arr) {
-            System.out.print(i + " - ");
-        }
     }
 
     // return a random item (but do not remove it)
@@ -82,7 +62,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
-        StdRandom.shuffle(arr, 0, n);
         return new RandomizedQueueIterator();
     }
 
@@ -101,54 +80,25 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private class RandomizedQueueIterator implements Iterator<Item> {
         private int i = 0;
-        public Item next() { return arr[i++]; }
+        private Item[] iteratorArray = (Item[]) new Object[n];
+
+        public RandomizedQueueIterator() {
+            StdRandom.shuffle(arr, 0, n);
+            for (int j = 0; j < n; j++) {
+                iteratorArray[j] = arr[j];
+            }
+        }
+
+        public Item next() {
+            if (i >= n) { throw new NoSuchElementException(); }
+            return iteratorArray[i++];
+        }
+
         public boolean hasNext() { return i < n; }
+
         public void remove() { throw new UnsupportedOperationException("Operation not supported."); }
     }
 
     // unit testing (optional)
-    public static void main(String[] args) {
-        RandomizedQueue<Integer> rq = new RandomizedQueue<Integer>();
-        rq.enqueue(1);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.enqueue(2);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.enqueue(3);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.enqueue(4);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.enqueue(5);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.enqueue(6);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.enqueue(7);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.enqueue(8);
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.dequeue();
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.dequeue();
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.dequeue();
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.dequeue();
-        rq.printArr();
-        System.out.println("\n-----------------");
-        rq.dequeue();
-        rq.printArr();System.out.println("\n-----------------");
-        rq.dequeue();
-        rq.printArr();
-
-    }
+    public static void main(String[] args) { }
 }
