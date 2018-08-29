@@ -12,6 +12,8 @@
  *
  ******************************************************************************/
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
 
@@ -64,22 +66,18 @@ public class Point implements Comparable<Point> {
      */
     public double slopeTo(Point that) {
         double slope;
-        double x0 = (double)this.x;
-        double y0 = (double)this.y;
-        double x1 = (double)that.x;
-        double y1 = (double)that.y;
-        if ((x0 == x1) && (y0 == y1)) {
+        if ((this.x == that.x) && (this.y == that.y)) {
             return Double.NEGATIVE_INFINITY;
         }
 
-        if (y0 == y1) {
+        if (this.y == that.y) {
             return +0.0;
         }
 
-        if (x0 == x1) {
+        if (this.x == that.x) {
             return Double.POSITIVE_INFINITY;
         }
-        slope = (y1 - y0) / (x1 - x0);
+        slope = (double)(that.y - this.y) / (that.x - this.x);
         return slope;
     }
 
@@ -129,7 +127,7 @@ public class Point implements Comparable<Point> {
         return "(" + x + ", " + y + ")";
     }
 
-    class SlopeComparator implements Comparator<Point> {
+    private class SlopeComparator implements Comparator<Point> {
         public int compare(Point a, Point b) {
             int result;
             double slopeToA = slopeTo(a);
@@ -159,6 +157,23 @@ public class Point implements Comparable<Point> {
         Point f = new Point(1,1);
         Point g = new Point(-2,-2);
         Point h = new Point(2,-2);
+        ArrayList<Point> points = new ArrayList<Point>();
+        points.add(a);
+        points.add(b);
+        points.add(c);
+        points.add(d);
+        points.add(e);
+        points.add(f);
+        points.add(g);
+        points.add(h);
+
+        // tests comparator
+        // can't call slopeOrder directly. Need to call it from within a point object.
+        Collections.sort(points, points.get(0).slopeOrder());
+        for (Point p: points) {
+            System.out.println(p);
+        }
+
         // tests slopeTo() method
         // horizontal line segments
         System.out.println("should return 0.0\n---------------------");
@@ -193,7 +208,7 @@ public class Point implements Comparable<Point> {
         System.out.println(h.slopeTo(h)); // should return Double.NEGATIVE_INFINITY
 
         // non zero and non infinity slopes
-        System.out.println("should return a number\n----------------------");
+        System.out.println("should return a double\n----------------------");
         System.out.println(d.slopeTo(b));
         System.out.println(b.slopeTo(d));
         System.out.println(e.slopeTo(b));
