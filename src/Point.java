@@ -63,7 +63,24 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
-        return 1; // mock value
+        double slope;
+        double x0 = (double)this.x;
+        double y0 = (double)this.y;
+        double x1 = (double)that.x;
+        double y1 = (double)that.y;
+        if ((x0 == x1) && (y0 == y1)) {
+            return Double.NEGATIVE_INFINITY;
+        }
+
+        if (y0 == y1) {
+            return +0.0;
+        }
+
+        if (x0 == x1) {
+            return Double.POSITIVE_INFINITY;
+        }
+        slope = (y1 - y0) / (x1 - x0);
+        return slope;
     }
 
     /**
@@ -79,7 +96,15 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        return 1; // mock value
+
+        if ((this.x == that.x) && (this.y == that.y)) {
+            return 0;
+        }
+        if (this.y < that.y || (this.y == that.y && this.x < that.x) ) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     /**
@@ -89,9 +114,8 @@ public class Point implements Comparable<Point> {
      * @return the Comparator that defines this ordering on points
      */
     public Comparator<Point> slopeOrder() {
-        return new PointComparator();
+        return new SlopeComparator();
     }
-
 
     /**
      * Returns a string representation of this point.
@@ -105,9 +129,21 @@ public class Point implements Comparable<Point> {
         return "(" + x + ", " + y + ")";
     }
 
-    class PointComparator implements Comparator<Point> {
+    class SlopeComparator implements Comparator<Point> {
         public int compare(Point a, Point b) {
-            return 1; // mock value
+            int result;
+            double slopeToA = slopeTo(a);
+            double slopeToB = slopeTo(b);
+            if (slopeToA - slopeToB < 0) {
+                result = -1;
+            } else {
+                if (slopeToA - slopeToB > 0) {
+                    result = 1;
+                } else {
+                    result = 0;
+                }
+            }
+            return result;
         }
     }
 
@@ -115,7 +151,92 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+        Point a = new Point(-1,3);
+        Point b = new Point(1,3);
+        Point c = new Point(2,2);
+        Point d = new Point(-2,2);
+        Point e = new Point(-1,1);
+        Point f = new Point(1,1);
+        Point g = new Point(-2,-2);
+        Point h = new Point(2,-2);
+        // tests slopeTo() method
+        // horizontal line segments
+        System.out.println("should return 0.0\n---------------------");
+        System.out.println(a.slopeTo(b)); // should return +0.0
+        System.out.println(b.slopeTo(a)); // should return +0.0
+        System.out.println(c.slopeTo(d)); // should return +0.0
+        System.out.println(e.slopeTo(f)); // should return +0.0
+        System.out.println(f.slopeTo(e)); // should return +0.0
+        System.out.println(g.slopeTo(h)); // should return +0.0
+        System.out.println(h.slopeTo(g)); // should return +0.0
+
+        //vertical line segments
+        System.out.println("should return Double.POSITIVE_INFINITY\n--------------------------------");
+        System.out.println(d.slopeTo(g)); // should return Double.POSITIVE_INFINITY
+        System.out.println(g.slopeTo(d)); // should return Double.POSITIVE_INFINITY
+        System.out.println(a.slopeTo(e)); // should return Double.POSITIVE_INFINITY
+        System.out.println(e.slopeTo(a)); // should return Double.POSITIVE_INFINITY
+        System.out.println(b.slopeTo(f)); // should return Double.POSITIVE_INFINITY
+        System.out.println(f.slopeTo(b)); // should return Double.POSITIVE_INFINITY
+        System.out.println(c.slopeTo(h)); // should return Double.POSITIVE_INFINITY
+        System.out.println(h.slopeTo(c)); // should return Double.POSITIVE_INFINITY
+
+        // equal points
+        System.out.println("should return Double.NEGATIVE_INFINITY\n-----------------------------------");
+        System.out.println(a.slopeTo(a)); // should return Double.NEGATIVE_INFINITY
+        System.out.println(b.slopeTo(b)); // should return Double.NEGATIVE_INFINITY
+        System.out.println(c.slopeTo(c)); // should return Double.NEGATIVE_INFINITY
+        System.out.println(d.slopeTo(d)); // should return Double.NEGATIVE_INFINITY
+        System.out.println(e.slopeTo(e)); // should return Double.NEGATIVE_INFINITY
+        System.out.println(f.slopeTo(f)); // should return Double.NEGATIVE_INFINITY
+        System.out.println(g.slopeTo(g)); // should return Double.NEGATIVE_INFINITY
+        System.out.println(h.slopeTo(h)); // should return Double.NEGATIVE_INFINITY
+
+        // non zero and non infinity slopes
+        System.out.println("should return a number\n----------------------");
+        System.out.println(d.slopeTo(b));
+        System.out.println(b.slopeTo(d));
+        System.out.println(e.slopeTo(b));
+        System.out.println(b.slopeTo(e));
+        System.out.println(e.slopeTo(c));
+        System.out.println(c.slopeTo(e));
+        System.out.println(a.slopeTo(h));
+        System.out.println(h.slopeTo(a));
+
+        // tests compareTo method
+        // equal points
+        System.out.println("should return 0\n---------------");
+        System.out.println(a.compareTo(a));
+        System.out.println(b.compareTo(b));
+        System.out.println(c.compareTo(c));
+        System.out.println(d.compareTo(d));
+        System.out.println(e.compareTo(e));
+        System.out.println(f.compareTo(f));
+        System.out.println(g.compareTo(g));
+        System.out.println(h.compareTo(h));
+
+        // first point greater than second point
+        System.out.println("should return 1\n-------------------");
+        System.out.println(a.compareTo(d));
+        System.out.println(c.compareTo(h));
+        System.out.println(b.compareTo(f));
+        System.out.println(e.compareTo(g));
+        System.out.println(b.compareTo(g));
+        System.out.println(d.compareTo(g));
+        System.out.println(a.compareTo(e));
+        System.out.println(b.compareTo(f));
+        System.out.println(c.compareTo(h));
+
+        //first point less than second point
+        System.out.println("should return -1\n------------------");
+        System.out.println(d.compareTo(a));
+        System.out.println(h.compareTo(c));
+        System.out.println(f.compareTo(b));
+        System.out.println(g.compareTo(e));
+        System.out.println(g.compareTo(d));
+        System.out.println(e.compareTo(a));
+        System.out.println(f.compareTo(b));
+        System.out.println(h.compareTo(c));
     }
 }
 
