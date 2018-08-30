@@ -94,16 +94,9 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-
-        if ((this.x == that.x) && (this.y == that.y)) {
-            return 0;
-        }
-        if (this.y < that.y || (this.y == that.y && this.x < that.x) ) {
-            return -1;
-        } else {
-            return 1;
-        }
-    }
+        if (this.y == that.y) return this.x - that.x;
+        return this.y - that.y;
+     }
 
     /**
      * Compares two points by the slope they make with this point.
@@ -157,6 +150,8 @@ public class Point implements Comparable<Point> {
         Point f = new Point(1,1);
         Point g = new Point(-2,-2);
         Point h = new Point(2,-2);
+
+        //System.out.println(a.compareTo(b));
         ArrayList<Point> points = new ArrayList<Point>();
         points.add(a);
         points.add(b);
@@ -231,7 +226,7 @@ public class Point implements Comparable<Point> {
         System.out.println(h.compareTo(h));
 
         // first point greater than second point
-        System.out.println("should return 1\n-------------------");
+        System.out.println("should return a positive integer\n--------------------------------");
         System.out.println(a.compareTo(d));
         System.out.println(c.compareTo(h));
         System.out.println(b.compareTo(f));
@@ -243,7 +238,7 @@ public class Point implements Comparable<Point> {
         System.out.println(c.compareTo(h));
 
         //first point less than second point
-        System.out.println("should return -1\n------------------");
+        System.out.println("should return a negative integer\n--------------------------------");
         System.out.println(d.compareTo(a));
         System.out.println(h.compareTo(c));
         System.out.println(f.compareTo(b));
