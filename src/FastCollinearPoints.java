@@ -4,29 +4,28 @@ import java.util.Collections;
 
 public class FastCollinearPoints {
 
-    private ArrayList<LineSegment> segments = new ArrayList<>();
+    private ArrayList<LineSegment> segments = new ArrayList<LineSegment>();
+    private ArrayList<LineSegment> uniqueSegments = new ArrayList<LineSegment>();
     private ArrayList<Point> collinear;
     private int count;
-    private int maxOcurrences;
+    private int max;
     private double currentSlope;
     private double collinearSlope;
 
-
     // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
-        LineSegment segment;
+        Point p;
         double[] slopesToP = new double[points.length];
 
         for ( int i = 0; i < points.length; i++) {
-            maxOcurrences = 1;
+            max = 1;
             count = 1;
             collinear = new ArrayList<Point>();
-            Point p = points[i];
+            p = points[i];
             Arrays.sort(points, p.slopeOrder());
             for ( int j = 0; j < slopesToP.length; j++) {
                 slopesToP[j] = p.slopeTo(points[j]);
             }
-//            Arrays.sort(slopesToP);
             collinear.add(points[0]);
             currentSlope = slopesToP[1];
             for (int k = 1; k < slopesToP.length - 1; k++) {
@@ -35,53 +34,48 @@ public class FastCollinearPoints {
                     if (count == 3) {
                         collinearSlope = currentSlope;
                     }
-                    if (maxOcurrences < count) {
-                        maxOcurrences = count;
+                    if (max < count) {
+                        max = count;
                     }
                 } else {
                     count = 1;
                     currentSlope = slopesToP[k+1];
                 }
             }
-            if (maxOcurrences >= 3) {
+            if (max >= 3) {
                 for (int l = 1; l < slopesToP.length; l++) {
                     if (slopesToP[l] == collinearSlope) {
                         collinear.add(points[l]);
                     }
                 }
+                Collections.sort(collinear);
+//                LineSegment currentSegment = new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1));
+                segments.add(new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1)));
             }
-            Collections.sort(collinear);
-
-            segments.add(new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1)) );
-//            System.out.println("collinear slope: " + collinearSlope);
-//            System.out.println("-----------------");
-//            for (Point point: collinear) {
-//                System.out.println(point.toString());
-//            }
-//            System.out.println();
-//            System.out.println();
-////            System.out.println("max occurence count: " + maxOcurrences);
         }
-
-
-//        if (slopesToP.length > 1) {
-//            Double temp = slopesToP[1];
-//            int count = 1;
-//            for (int i = 1; i < slopesToP.length - 1; i++) {
-//                if (slopesToP[i] == temp) {
-//                    count++;
-//                } else {
-//                    temp = slopesToP[i];
-//                }
-//            }
-//        }
-//        System.out.println("fdfdg");
-
+        for ( int i = 0; i < segments.size(); i ++) {
+                boolean exists = false;
+                String str1 = segments.get(i).toString();
+                if (uniqueSegments.size() == 0) {
+                    uniqueSegments.add(segments.get(i));
+                    exists = true;
+                } else {
+                    for (int j = 0; j < uniqueSegments.size(); j++) {
+                        String str2 = uniqueSegments.get(j).toString();
+                        if (str2.equals(str1)) {
+                            exists = true;
+                        }
+                    }
+                }
+            if (exists == false) {
+                uniqueSegments.add(segments.get(i));
+                exists = true;
+            }
+        }
     }
 
     // the number of line segments
     public int numberOfSegments() {
-
         return segments.size();
     }
 
@@ -104,7 +98,7 @@ public class FastCollinearPoints {
 
         FastCollinearPoints fcp6 = new FastCollinearPoints(input6);
 
-        // creates input array using input6.txt values provided in the course
+//        // creates input array using input6.txt values provided in the course
         Point[] input8 = { new Point(10000,0),
                 new Point(0,10000),
                 new Point(3000,7000),
@@ -117,11 +111,17 @@ public class FastCollinearPoints {
 
         FastCollinearPoints fcp8 = new FastCollinearPoints(input8);
 
+
+
+        System.out.println("\n\n\n\n\n");
         for (LineSegment ls: fcp6.segments()) {
             System.out.println(ls.toString());
         }
+
+        System.out.println("\n\n\n\n\n\n");
         for (LineSegment ls: fcp8.segments()) {
             System.out.println(ls.toString());
         }
+        System.out.println("iuhgik");
     }
 }
