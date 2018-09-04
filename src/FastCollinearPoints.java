@@ -106,22 +106,21 @@ public class FastCollinearPoints {
                 new Point(20000,21000),
                 new Point(3000,4000),
                 new Point(14000,15000),
-                new Point(6000,7000)
+                new Point(6000,7000),
         };
 
         FastCollinearPoints fcp8 = new FastCollinearPoints(input8);
 
 
 
-        System.out.println("\n\n\n\n\n");
+        System.out.println("----------");
         for (LineSegment ls: fcp6.segments()) {
             System.out.println(ls.toString());
         }
 
-        System.out.println("\n\n\n\n\n\n");
+        System.out.println("----------");
         for (LineSegment ls: fcp8.segments()) {
             System.out.println(ls.toString());
         }
-        System.out.println("iuhgik");
     }
 }
