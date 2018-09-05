@@ -86,8 +86,8 @@ public class BruteCollinearPoints {
                            new Point(14000,10000),
         };
 
-        Point[] nil = null;
-        BruteCollinearPoints bcpNil = new BruteCollinearPoints(nil);
+//        Point[] nil = null;
+//        BruteCollinearPoints bcpNil = new BruteCollinearPoints(nil);
 
 //        Point[] duplicatePoints = {
 //                new Point(31757, 27749),
@@ -106,8 +106,8 @@ public class BruteCollinearPoints {
 //            System.out.println(ls.toString());
 //        }
 //        System.out.println();
-//        BruteCollinearPoints bcp6 = new BruteCollinearPoints(input5);
-//        for (LineSegment ls: bcp6.segments()) {
+//        BruteCollinearPoints bcp5 = new BruteCollinearPoints(input5);
+//        for (LineSegment ls: bcp5.segments()) {
 //            System.out.println(ls.toString());
 //        }
     }
