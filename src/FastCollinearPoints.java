@@ -57,6 +57,7 @@ public class FastCollinearPoints {
                 Collections.sort(collinear);
 //                LineSegment currentSegment = new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1));
                 segments.add(new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1)));
+
             }
         }
         for ( int i = 0; i < segments.size(); i ++) {
