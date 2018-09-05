@@ -7,14 +7,24 @@ public class BruteCollinearPoints {
     // finds all line segments containing 4 points
     public BruteCollinearPoints(Point[] points) {
         LineSegment segment;
-        Arrays.sort(points);
-        for (int i = 0; i < points.length; i++) {
-            for (int j = i + 1; j < points.length; j++) {
-                for (int k = j + 1; k < points.length; k++) {
-                    for (int l = k + 1; l < points.length; l++) {
-                        if (points[i].slopeTo(points[j]) == points[i].slopeTo(points[k]) &&
-                            points[i].slopeTo(points[k]) == points[i].slopeTo(points[l])) {
-                            segment = new LineSegment(points[i], points[l]);
+        if (points == null) {
+            throw new java.lang.IllegalArgumentException();
+        }
+        Point[] p = Arrays.copyOf(points, points.length);
+        if (checkNulls(p)) {
+            throw new java.lang.IllegalArgumentException();
+        }
+        Arrays.sort(p);
+        if (checkRepeated(p)) {
+            throw new java.lang.IllegalArgumentException();
+        }
+        for (int i = 0; i < p.length; i++) {
+            for (int j = i + 1; j < p.length; j++) {
+                for (int k = j + 1; k < p.length; k++) {
+                    for (int l = k + 1; l < p.length; l++) {
+                        if (p[i].slopeTo(p[j]) == p[i].slopeTo(p[k]) &&
+                            p[i].slopeTo(p[k]) == p[i].slopeTo(p[l])) {
+                            segment = new LineSegment(p[i], p[l]);
                             segments.add(segment);
                         }
                     }
@@ -33,6 +43,24 @@ public class BruteCollinearPoints {
         LineSegment[] result = new LineSegment[numberOfSegments()];
         result = segments.toArray(result);
         return result;
+    }
+
+    private boolean checkRepeated(Point[] points) {
+        for (int i = 0; i < points.length - 1; i++) {
+            if (points[i].compareTo(points[i+1]) == 0) {
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkNulls(Point[] points) {
+        for (int i = 0; i < points.length; i++) {
+            if (points[i] == null) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // unit tests. Do not include this code in coursera submissions
@@ -57,14 +85,30 @@ public class BruteCollinearPoints {
                            new Point(1234,5678),
                            new Point(14000,10000),
         };
-        BruteCollinearPoints bcp8 = new BruteCollinearPoints(input8);
-        for (LineSegment ls: bcp8.segments()) {
-            System.out.println(ls.toString());
-        }
-        System.out.println();
-        BruteCollinearPoints bcp6 = new BruteCollinearPoints(input5);
-        for (LineSegment ls: bcp6.segments()) {
-            System.out.println(ls.toString());
-        }
+
+        Point[] nil = null;
+        BruteCollinearPoints bcpNil = new BruteCollinearPoints(nil);
+
+//        Point[] duplicatePoints = {
+//                new Point(31757, 27749),
+//                new Point(750,   602),
+//                new Point(26727,   549),
+//                new Point(31757, 27749),
+//                new Point(9044,  4648)
+//        };
+//        BruteCollinearPoints dup = new BruteCollinearPoints(duplicatePoints);
+
+
+
+
+//        BruteCollinearPoints bcp8 = new BruteCollinearPoints(input8);
+//        for (LineSegment ls: bcp8.segments()) {
+//            System.out.println(ls.toString());
+//        }
+//        System.out.println();
+//        BruteCollinearPoints bcp6 = new BruteCollinearPoints(input5);
+//        for (LineSegment ls: bcp6.segments()) {
+//            System.out.println(ls.toString());
+//        }
     }
 }
