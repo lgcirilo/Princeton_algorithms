@@ -1,25 +1,17 @@
 import edu.princeton.cs.algs4.In;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class FastCollinearPoints {
 
     private ArrayList<LineSegment> segments = new ArrayList<LineSegment>();
     private ArrayList<LineSegment> uniqueSegments = new ArrayList<LineSegment>();
-    private ArrayList<Point> collinear;
-    private int count;
-    private int max;
-    private double currentSlope;
-    private double collinearSlope;
+    private ArrayList<Point> collinear = new ArrayList<Point>();
 
     // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
-        Point p;
         Point[] arr;
         if (points == null) {
             throw new java.lang.IllegalArgumentException();
@@ -28,50 +20,45 @@ public class FastCollinearPoints {
             throw new java.lang.IllegalArgumentException();
         }
         if (points.length >= 4) {
-            arr = points.clone();
-            double[] slopesToP = new double[points.length];
 
             for (int i = 0; i < points.length; i++) {
-                max = 1;
-                count = 1;
-                collinear = new ArrayList<Point>();
-                p = points[i];
-                Arrays.sort(arr, p.slopeOrder());
+                // find collinear segments for each point in array arr.
+                arr = points.clone();
+                Arrays.sort(arr, arr[i].slopeOrder());
                 if (checkRepeated(arr)) {
                     throw new java.lang.IllegalArgumentException();
                 }
-                for (int j = 0; j < slopesToP.length; j++) {
-                    slopesToP[j] = p.slopeTo(arr[j]);
-                }
-                collinear.add(arr[0]);
-                currentSlope = slopesToP[1];
-                for (int k = 1; k < slopesToP.length - 1; k++) {
-                    if (slopesToP[k] == slopesToP[k + 1]) {
-                        count++;
-                        if (count == 3) {
-                            collinearSlope = currentSlope;
-                        }
-                        if (max < count) {
-                            max = count;
+                for (int j = 1; j < arr.length - 1; j++) {
+                    if (collinear.size() == 0) {
+                        collinear.add(arr[0]);
+                    }
+                    if (arr[0].slopeTo(arr[j]) == arr[0].slopeTo(arr[j + 1])) {
+                        collinear.add(arr[j]);
+                        if (j == arr.length - 2) {
+                            collinear.add(arr[j + 1]);
+                            if (collinear.size() >= 4) {
+                                Collections.sort(collinear);
+                                segments.add(new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1)));
+                                collinear = new ArrayList<Point>();
+                            } else {
+                                collinear = new ArrayList<Point>();
+                            }
                         }
                     } else {
-                        count = 1;
-                        currentSlope = slopesToP[k + 1];
-                    }
-                }
-                if (max >= 3) {
-                    for (int l = 1; l < slopesToP.length; l++) {
-                        if (slopesToP[l] == collinearSlope) {
-                            collinear.add(arr[l]);
+                        collinear.add(arr[j]);
+                        if (collinear.size() >= 4) {
+                            Collections.sort(collinear);
+                            segments.add(new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1)));
+                            collinear = new ArrayList<Point>();
+                        } else {
+                            collinear = new ArrayList<Point>();
                         }
                     }
-                    Collections.sort(collinear);
-//                LineSegment currentSegment = new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1));
-                    segments.add(new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1)));
-
                 }
             }
-            for (int i = 0; i < segments.size(); i++) {
+
+            // select unique Line segments
+            for ( int i = 0; i < segments.size(); i ++) {
                 boolean exists = false;
                 String str1 = segments.get(i).toString();
                 if (uniqueSegments.size() == 0) {
@@ -87,9 +74,9 @@ public class FastCollinearPoints {
                 }
                 if (exists == false) {
                     uniqueSegments.add(segments.get(i));
-                    exists = true;
                 }
             }
+
         }
     }
 
@@ -139,94 +126,5 @@ public class FastCollinearPoints {
 
         FastCollinearPoints fcp = new FastCollinearPoints(points);
         System.out.println(fcp.numberOfSegments());
-//        // creates input array using input6.txt values provided in the course
-//        Point[] input6 = { new Point(19000,10000),
-//                           new Point(18000,10000),
-//                           new Point(32000,10000),
-//                           new Point(21000,10000),
-//                           new Point(1234,5678),
-//                           new Point(14000,10000),
-//        };
-//
-//        FastCollinearPoints fcp6 = new FastCollinearPoints(input6);
-
-//        // creates input array using input6.txt values provided in the course
-//        Point[] input8 = { new Point(10000,0),
-//                new Point(0,10000),
-//                new Point(3000,7000),
-//                new Point(7000,3000),
-//                new Point(20000,21000),
-//                new Point(3000,4000),
-//                new Point(14000,15000),
-//                new Point(6000,7000),
-//        };
-//
-//        FastCollinearPoints fcp8 = new FastCollinearPoints(input8);
-
-//        creates input array using input48.xtx values provided in the course
-//        Point[] input48 = {new Point(26000, 27000),
-//                           new Point(24000, 23000),
-//                           new Point(18000, 23000),
-//                           new Point(22000, 9000),
-//                           new Point(25000, 25000),
-//                           new Point(1000, 2000),
-//                           new Point(12000, 10000),
-//                           new Point(22000, 17000),
-//                           new Point(25000, 1000),
-//                           new Point(15000, 1000),
-//                           new Point(19000, 28000),
-//                           new Point(12000, 3000),
-//                           new Point(4000, 15000),
-//                           new Point(2000, 7000),
-//                           new Point(18000, 27000),
-//                           new Point(9000, 26000),
-//                           new Point(11000, 26000),
-//                           new Point(6000, 16000),
-//                           new Point(18000, 26000),
-//                           new Point(24000, 30000),
-//                           new Point(10000, 25000),
-//                           new Point(7000, 10000),
-//                           new Point(19000, 24000),
-//                           new Point(6000, 0),
-//                           new Point(26000, 15000),
-//                           new Point(1000, 23000),
-//                           new Point(23000, 29000),
-//                           new Point(15000, 7000),
-//                           new Point(15000, 19000),
-//                           new Point(17000, 31000),
-//                           new Point(6000, 2000),
-//                           new Point(17000, 16000),
-//                           new Point(1000, 26000),
-//                           new Point(11000, 19000),
-//                           new Point(25000, 0),
-//                           new Point(17000, 30000),
-//                           new Point(16000, 22000),
-//                           new Point(18000, 13000),
-//                           new Point(3000, 23000),
-//                           new Point(10000, 13000),
-//                           new Point(1000, 9000),
-//                           new Point(11000, 21000),
-//                           new Point(29000, 19000),
-//                           new Point(9000, 29000),
-//                           new Point(30000, 3000),
-//                           new Point(9000, 1000),
-//                           new Point(5000, 29000),
-//                           new Point(26000, 6000)
-//        };
-
-//        FastCollinearPoints fcp48 = new FastCollinearPoints(input48);
-//        for (LineSegment ls: fcp48.segments()) {
-//            System.out.println(ls.toString());
-//        }
-//
-//        System.out.println("----------");
-//        for (LineSegment ls: fcp6.segments()) {
-//            System.out.println(ls.toString());
-//        }
-//
-//        System.out.println("----------");
-//        for (LineSegment ls: fcp8.segments()) {
-//            System.out.println(ls.toString());
-//        }
     }
 }
