@@ -19,15 +19,16 @@ public class FastCollinearPoints {
         if (checkNulls(points)) {
             throw new java.lang.IllegalArgumentException();
         }
+        arr = points.clone();
+        Arrays.sort(arr);
+        if (checkRepeated(arr)) {
+            throw new java.lang.IllegalArgumentException();
+        }
         if (points.length >= 4) {
 
             for (int i = 0; i < points.length; i++) {
                 // find collinear segments for each point in array arr.
-                arr = points.clone();
-                Arrays.sort(arr, arr[i].slopeOrder());
-                if (checkRepeated(arr)) {
-                    throw new java.lang.IllegalArgumentException();
-                }
+                Arrays.sort(arr, points[i].slopeOrder());
                 for (int j = 1; j < arr.length - 1; j++) {
                     if (collinear.size() == 0) {
                         collinear.add(arr[0]);
