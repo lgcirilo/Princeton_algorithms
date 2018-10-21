@@ -21,6 +21,8 @@ public class Point implements Comparable<Point> {
 
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
+//    public static int countSlope = 0;
+//    public static int countCompare = 0;
     /**
      * Initializes a new point.
      *
@@ -64,6 +66,7 @@ public class Point implements Comparable<Point> {
      * @return the slope between this point and the specified point
      */
     public double slopeTo(Point that) {
+//        countSlope++;
         double slope;
         if ((this.x == that.x) && (this.y == that.y)) {
             return Double.NEGATIVE_INFINITY;
@@ -122,6 +125,7 @@ public class Point implements Comparable<Point> {
     private class SlopeComparator implements Comparator<Point> {
         public int compare(Point a, Point b) {
             int result;
+//            countCompare++;
             double slopeToA = slopeTo(a);
             double slopeToB = slopeTo(b);
             if (slopeToA - slopeToB < 0) {
