@@ -1,3 +1,5 @@
+package week4;
+
 public interface ISolver {
 
     boolean isSolvable();

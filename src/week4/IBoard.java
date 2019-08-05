@@ -1,3 +1,5 @@
+package week4;
+
 public interface IBoard {
 
     String toString();
