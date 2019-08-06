@@ -132,8 +132,10 @@ class Board {
 
 
         ///// there's stuff left to do here
-
+        ///// in order to clone an Object we must implement the java.lang.Cloneable interface
+        int[][] temp = {{1,2},{1,2}}; // this is just here so that there are no errors. remove when finished.
         return new Board(temp);
+
     } //not yet implemented
 
     public static void main(String[] args) {
