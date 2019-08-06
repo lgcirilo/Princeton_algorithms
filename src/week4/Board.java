@@ -119,9 +119,21 @@ class Board {
     public Board twin() {
 
 
+        int[][] twin = new int[dimension][dimension];
+        int x1 = (int) Math.floor((Math.random() * this.dimension));
+        int y1 = (int) Math.floor((Math.random() * this.dimension));
+        int x2;
+        int y2;
+        do {
+            x2 = (int) Math.floor((Math.random() * this.dimension));
+            y2 = (int) Math.floor((Math.random() * this.dimension));
+        } while (x1 == x2 && y1 == y2);
 
-        int[][] dummy = {{1,2},{1,2}};
-        return new Board(dummy);
+
+
+        ///// there's stuff left to do here
+
+        return new Board(temp);
     } //not yet implemented
 
     public static void main(String[] args) {
@@ -131,16 +143,19 @@ class Board {
         int[][] goalBoard = {{1,2,3},{4,5,6},{7,8,0}};
         int[][] hammingManhattanTest = {{8,1,3,9},{10,4,0,2},{7,6,11,5},{14,12,15,13}};
         Board myBoard = new Board(boardArray);
-        Board myBoard2 = new Board(boardArray2);
-        Board myBoardGoal = new Board(goalBoard);
+//        Board myBoard2 = new Board(boardArray2);
+//        Board myBoardGoal = new Board(goalBoard);
         Board myBoardHammingManhattan = new Board(hammingManhattanTest);
-        System.out.println(myBoardHammingManhattan.toString());
+//        System.out.println(myBoardHammingManhattan.toString());
 
 //        System.out.println("myBoardGoal.isGoal(): " + myBoardGoal.isGoal());
 //        System.out.println("myBoardHamming.toString():\n" + myBoardHammingManhattan.toString());
-        System.out.println("Hamming distance: " + myBoardHammingManhattan.hamming());
-        System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
+//        System.out.println("Hamming distance: " + myBoardHammingManhattan.hamming());
+//        System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
 //        System.out.println("myBoard.toString():\n" + myBoard.toString());
 //        System.out.println("myBoard.equals(myBoard2): " + myBoard.equals(myBoard2));
+        for (int i = 0; i < 20; i++) {
+            System.out.println(myBoardHammingManhattan.twin().toString());
+        }
     }
 }
