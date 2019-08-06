@@ -73,7 +73,7 @@ class Board {
             }
         }
         return manhattan;
-    } //not yet implemented
+    } // giving wrong result for myBoardHammingManhattan. Should be 33.
 
     public boolean isGoal() { // testar de novo
 
