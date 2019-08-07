@@ -74,7 +74,7 @@ class Board {
             }
         }
         return manhattan;
-    } // giving wrong result for myBoardHammingManhattan. Should be 33.
+    }
 
     public boolean isGoal() { // testar de novo
 
@@ -138,6 +138,7 @@ class Board {
         return new Board(temp);
 
     } //not yet implemented
+
 
     private void message(int i, int j, int x, int y, int expectedX, int expectedY) {
         System.out.println("failed for tile " + this.board[i][j] + ". Is (" + x + "," + y + "). " +
