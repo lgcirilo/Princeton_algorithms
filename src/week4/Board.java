@@ -64,9 +64,9 @@ class Board {
             for (int j = 0; j < dimension; j++) {
                 if (this.board[i][j] != 0) {
                     tile = this.board[i][j];
-                    int x = tile % dimension == 0 ? (int) Math.floor(tile / dimension) - 1 : (int) Math.floor(tile / dimension);
+                    int x = tile % dimension == 0 ? (int) Math.floor(tile / dimension) - 1 :
+                            (int) Math.floor(tile / dimension);
                     int y = tile % dimension > 0 ? (tile % dimension) - 1 : dimension -1;
-                    int d = Math.abs(x-i) + Math.abs(y-j);
                     manhattan += Math.abs(x-i) + Math.abs(y-j);
                 }
             }
@@ -116,7 +116,6 @@ class Board {
         int x0 = -10;
         int y0 = -10;
         // Free tile coordinates
-        Board tempBoard;
 
         // Gets empty tile position
         for (int i = 0; i < dimension; i++) {
@@ -129,57 +128,40 @@ class Board {
         }
 
         // Defines neighbors
-        if (x0 - 1 >= 0) { // x-1, y
-            int[][] seedArray = new int[dimension][dimension];
-            for (int i = 0; i < dimension; i++) {
-                for (int j = 0; j < dimension; j++) {
-                    seedArray[i][j] = this.board[i][j];
-                }
-            }
-            System.out.println("entrou");
+        if (x0 - 1 >= 0) {
+
+            int[][] seedArray = cloneArray();
             seedArray[x0][y0] = seedArray[x0 - 1][y0];
             seedArray[x0 - 1][y0] = 0;
             boards.add(new Board(seedArray));
 
         }
 
-        if (x0 + 1 < dimension) { // x + 1, y
-            int[][] seedArray = new int[dimension][dimension];
-            for (int i = 0; i < dimension; i++) {
-                for (int j = 0; j < dimension; j++) {
-                    seedArray[i][j] = this.board[i][j];
-                }
-            }
+        if (x0 + 1 < dimension) {
 
+            int[][] seedArray = cloneArray();
             seedArray[x0][y0] = seedArray[x0 + 1][y0];
             seedArray[x0 + 1][y0] = 0;
             boards.add(new Board(seedArray));
+
         }
 
-        if (y0 + 1 < dimension) { // x, y + 1
-            int[][] seedArray = new int[dimension][dimension];
-            for (int i = 0; i < dimension; i++) {
-                for (int j = 0; j < dimension; j++) {
-                    seedArray[i][j] = this.board[i][j];
-                }
-            }
+        if (y0 + 1 < dimension) {
 
+            int[][] seedArray = cloneArray();
             seedArray[x0][y0] = seedArray[x0][y0 + 1];
             seedArray[x0][y0 + 1] = 0;
             boards.add(new Board(seedArray));
+
         }
 
-        if (y0 - 1 >= 0) { // x, y - 1
-            int[][] seedArray = new int[dimension][dimension];
-            for (int i = 0; i < dimension; i++) {
-                for (int j = 0; j < dimension; j++) {
-                    seedArray[i][j] = this.board[i][j];
-                }
-            }
+        if (y0 - 1 >= 0) {
 
+            int[][] seedArray = cloneArray();
             seedArray[x0][y0] = seedArray[x0][y0 - 1];
             seedArray[x0][y0 - 1] = 0;
             boards.add(new Board(seedArray));
+
         }
 
         for (Board board: boards) {
@@ -189,9 +171,21 @@ class Board {
         return boards;
     }
 
+    private int[][] cloneArray() {
+        int[][] seedArray = new int[dimension][dimension];
+
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                seedArray[i][j] = this.board[i][j];
+            }
+        }
+
+        return seedArray;
+    }
+
     public Board twin() {
 
-        int[][] twin = new int[dimension][dimension];
+        int[][] twin;
         int temp;
         int x1;
         int y1;
@@ -208,11 +202,7 @@ class Board {
 
         // clones a board. refactor to use clone method from Object.
         // In order to clone an Object we must implement the java.lang.Cloneable interface
-        for (int i = 0; i < dimension; i++) {
-            for (int j = 0; j < dimension; j++) {
-                twin[i][j] = this.board[i][j];
-            }
-        }
+        twin = cloneArray();
 
         // exchanges the two chosen tiles
         temp = twin[x1][y1];
@@ -249,17 +239,21 @@ class Board {
           System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
 //        System.out.println("myBoard.toString():\n" + myBoard.toString());
 //        System.out.println("myBoard.equals(myBoard2): " + myBoard.equals(myBoard2));
-//        for (int i = 0; i < 20; i++) {
-//            System.out.println("Manhattan distance: " + myBoardHammingManhattan.twin().manhattan());
-//            System.out.println(myBoardHammingManhattan.twin().toString());
-//        }
-        System.out.println(myBoard.toString());
-        myBoard.neighbors();
-        System.out.println("======================");
-        System.out.println(myBoard2.toString());
-        myBoard2.neighbors();
-        System.out.println("======================");
         System.out.println(myBoardHammingManhattan.toString());
-        myBoardHammingManhattan.neighbors();
+        System.out.println("======================");
+
+
+        for (int i = 0; i < 20; i++) {
+            System.out.println("Manhattan distance: " + myBoardHammingManhattan.twin().manhattan());
+//            System.out.println(myBoardHammingManhattan.twin().toString());
+        }
+//        System.out.println(myBoard.toString());
+//        myBoard.neighbors();
+//        System.out.println("======================");
+//        System.out.println(myBoard2.toString());
+//        myBoard2.neighbors();
+//        System.out.println("======================");
+//        System.out.println(myBoardHammingManhattan.toString());
+//        myBoardHammingManhattan.neighbors();
     }
 }
