@@ -112,8 +112,82 @@ class Board {
 
     public Iterable<Board> neighbors() {
         ArrayList<Board> boards = new ArrayList<>();
+        // Free tile coordinates
+        int x0 = -10;
+        int y0 = -10;
+        // Free tile coordinates
+        Board tempBoard;
+
+        // Gets empty tile position
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                if (this.board[i][j] == 0) {
+                    x0 = i;
+                    y0 = j;
+                }
+            }
+        }
+
+        // Defines neighbors
+        if (x0 - 1 >= 0) { // x-1, y
+            int[][] seedArray = new int[dimension][dimension];
+            for (int i = 0; i < dimension; i++) {
+                for (int j = 0; j < dimension; j++) {
+                    seedArray[i][j] = this.board[i][j];
+                }
+            }
+            System.out.println("entrou");
+            seedArray[x0][y0] = seedArray[x0 - 1][y0];
+            seedArray[x0 - 1][y0] = 0;
+            boards.add(new Board(seedArray));
+
+        }
+
+        if (x0 + 1 < dimension) { // x + 1, y
+            int[][] seedArray = new int[dimension][dimension];
+            for (int i = 0; i < dimension; i++) {
+                for (int j = 0; j < dimension; j++) {
+                    seedArray[i][j] = this.board[i][j];
+                }
+            }
+
+            seedArray[x0][y0] = seedArray[x0 + 1][y0];
+            seedArray[x0 + 1][y0] = 0;
+            boards.add(new Board(seedArray));
+        }
+
+        if (y0 + 1 < dimension) { // x, y + 1
+            int[][] seedArray = new int[dimension][dimension];
+            for (int i = 0; i < dimension; i++) {
+                for (int j = 0; j < dimension; j++) {
+                    seedArray[i][j] = this.board[i][j];
+                }
+            }
+
+            seedArray[x0][y0] = seedArray[x0][y0 + 1];
+            seedArray[x0][y0 + 1] = 0;
+            boards.add(new Board(seedArray));
+        }
+
+        if (y0 - 1 >= 0) { // x, y - 1
+            int[][] seedArray = new int[dimension][dimension];
+            for (int i = 0; i < dimension; i++) {
+                for (int j = 0; j < dimension; j++) {
+                    seedArray[i][j] = this.board[i][j];
+                }
+            }
+
+            seedArray[x0][y0] = seedArray[x0][y0 - 1];
+            seedArray[x0][y0 - 1] = 0;
+            boards.add(new Board(seedArray));
+        }
+
+        for (Board board: boards) {
+            System.out.println(board.toString());
+        }
+
         return boards;
-    } //not yet implemented
+    }
 
     public Board twin() {
 
@@ -152,8 +226,8 @@ class Board {
 
     public static void main(String[] args) {
 
-        int[][] boardArray = {{1,3,5},{4,6,2},{7,8,9}};
-        int[][] boardArray2 = {{1,3,5},{4,6,2},{7,8,9}};
+        int[][] boardArray = {{1,3,5},{4,6,2},{7,8,0}};
+        int[][] boardArray2 = {{1,3,5},{0,6,2},{7,8,4}};
         int[][] goalBoard = {{1,2,3},{4,5,6},{7,8,0}};
         int[][] goalBoard4By4 = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}};
         int[][] hammingManhattanTest = {{8,1,3,9},{10,4,0,2},{7,6,11,5},{14,12,15,13}};
@@ -175,9 +249,17 @@ class Board {
           System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
 //        System.out.println("myBoard.toString():\n" + myBoard.toString());
 //        System.out.println("myBoard.equals(myBoard2): " + myBoard.equals(myBoard2));
-        for (int i = 0; i < 20; i++) {
-            System.out.println("Manhattan distance: " + myBoardHammingManhattan.twin().manhattan());
+//        for (int i = 0; i < 20; i++) {
+//            System.out.println("Manhattan distance: " + myBoardHammingManhattan.twin().manhattan());
 //            System.out.println(myBoardHammingManhattan.twin().toString());
-        }
+//        }
+        System.out.println(myBoard.toString());
+        myBoard.neighbors();
+        System.out.println("======================");
+        System.out.println(myBoard2.toString());
+        myBoard2.neighbors();
+        System.out.println("======================");
+        System.out.println(myBoardHammingManhattan.toString());
+        myBoardHammingManhattan.neighbors();
     }
 }
