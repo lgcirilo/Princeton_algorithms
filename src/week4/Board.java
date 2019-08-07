@@ -59,15 +59,16 @@ class Board {
     public int manhattan() {
 
         int tile;
-
         int manhattan = 0;
 
         for (int i = 0; i < dimension; i++) {
             for (int j = 0; j < dimension; j++) {
                 if (this.board[i][j] != 0) {
                     tile = this.board[i][j];
-                    int x = (int) Math.floor(tile / dimension);
-                    int y = tile % dimension > 0 ? tile % dimension : dimension -1;
+                    int x = tile % dimension == 0 ? (int) Math.floor(tile / dimension) - 1 : (int) Math.floor(tile / dimension);
+                    int y = tile % dimension > 0 ? (tile % dimension) - 1 : dimension -1;
+                    int d = Math.abs(x-i) + Math.abs(y-j);
+                    System.out.println("distance from (" + i + "," + j + ") " + "to " + "(" + x + "," + y + ")");
                     manhattan += Math.abs(x-i) + Math.abs(y-j);
                 }
             }
@@ -138,6 +139,163 @@ class Board {
 
     } //not yet implemented
 
+    // just a unit test for board int[][] hammingManhattanTest = {{8,1,3,9},{10,4,0,2},{7,6,11,5},{14,12,15,13}};
+//    private boolean manhattanTest() {
+//        boolean isGoalCorrect = true;
+//        int outOfPlaceTiles = 0;
+//        for (int i = 0; i < dimension; i++) {
+//            for (int j = 0; j < dimension; j++) {
+//                int tile = this.board[i][j];
+//                int x = tile % dimension == 0 ? (int) Math.floor(tile / dimension) - 1 : (int) Math.floor(tile / dimension);
+//                int y = tile % dimension > 0 ? (tile % dimension) - 1 : dimension -1;
+//                if (i == 0 && j == 0) {
+//                    if (x != 1 || y != 3) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 1, 3);
+//                    }
+//                }
+//
+//                if (i == 0 && j == 1) {
+//                    if (x != 0 || y != 0) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//
+//                        message(i, j, x, y, 0, 0);
+//
+//                    }
+//                }
+//
+//                if (i == 0 && j == 2) {
+//                    if (x != 0 || y != 2) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 0, 2  );
+//
+//                    }
+//                }
+//
+//                if (i == 0 && j == 3) {
+//                    if (x != 2 || y != 0) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 2, 0 );
+//
+//                    }
+//                }
+//
+//                if (i == 1 && j == 0) {
+//                    if (x != 2 || y != 1) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 2, 1);
+//
+//                    }
+//                }
+//
+//                if (i == 1 && j == 1) {
+//                    if (x != 0 || y != 3) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 0,3 );
+//
+//                    }
+//                }
+//
+//                if (i == 1 && j == 3) {
+//                    if (x != 0 || y != 1) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 0, 1);
+//
+//                    }
+//                }
+//
+//                if (i == 2 && j == 0) {
+//                    if (x != 1 || y != 2) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 1, 2);
+//
+//                    }
+//                }
+//
+//                if (i == 2 && j == 1) {
+//                    if (x != 1 || y != 1) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 1, 1);
+//
+//                    }
+//                }
+//
+//                if (i == 2 && j == 2) {
+//                    if (x != 2 || y != 2) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 2,2 );
+//
+//                    }
+//                }
+//
+//                if (i == 2 && j == 3) {
+//                    if (x != 1 || y != 0) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 1,0 );
+//
+//                    }
+//                }
+//
+//                if (i == 3 && j == 0) {
+//                    if (x != 3 || y != 1) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 3,1 );
+//
+//                    }
+//                }
+//
+//                if (i == 3 && j == 1) {
+//                    if (x != 2 || y != 3) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 2,3 );
+//
+//                    }
+//                }
+//
+//                if (i == 3 && j == 2) {
+//                    if (x != 3 || y != 2) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 3,2 );
+//
+//                    }
+//                }
+//
+//                if (i == 3 && j == 3)  {
+//                    if (x != 3 || y != 0) {
+//                        isGoalCorrect = false;
+//                        outOfPlaceTiles++;
+//                        message(i, j, x, y, 3,0 );
+//
+//                    }
+//                }
+//
+//            }
+//
+//        }
+//        System.out.println("Tiles out of place: " + outOfPlaceTiles);
+//
+//        return isGoalCorrect;
+//    }
+
+    private void message(int i, int j, int x, int y, int expectedX, int expectedY) {
+        System.out.println("failed for tile " + this.board[i][j] + ". Is (" + x + "," + y + "). " +
+                        "Should be (" + expectedX + "," + expectedY + ")");
+    }
+
     public static void main(String[] args) {
 
         int[][] boardArray = {{1,3,5},{4,6,2},{7,8,9}};
@@ -148,16 +306,17 @@ class Board {
 //        Board myBoard2 = new Board(boardArray2);
 //        Board myBoardGoal = new Board(goalBoard);
         Board myBoardHammingManhattan = new Board(hammingManhattanTest);
-//        System.out.println(myBoardHammingManhattan.toString());
+//        System.out.println(myBoardHammingManhattan.manhattanTest());
+        System.out.println(myBoardHammingManhattan.toString());
 
 //        System.out.println("myBoardGoal.isGoal(): " + myBoardGoal.isGoal());
 //        System.out.println("myBoardHamming.toString():\n" + myBoardHammingManhattan.toString());
 //        System.out.println("Hamming distance: " + myBoardHammingManhattan.hamming());
-//        System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
+        System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
 //        System.out.println("myBoard.toString():\n" + myBoard.toString());
 //        System.out.println("myBoard.equals(myBoard2): " + myBoard.equals(myBoard2));
-        for (int i = 0; i < 20; i++) {
-            System.out.println(myBoardHammingManhattan.twin().toString());
-        }
+//        for (int i = 0; i < 20; i++) {
+//            System.out.println(myBoardHammingManhattan.twin().toString());
+//        }
     }
 }
