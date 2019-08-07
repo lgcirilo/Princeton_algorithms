@@ -1,7 +1,6 @@
 package week4;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 class Board {
 
@@ -13,7 +12,7 @@ class Board {
         this.board = tiles.clone();
         this.dimension = this.board.length;
 
-    } // ok
+    }
 
     public String toString() {
 
@@ -29,11 +28,11 @@ class Board {
 
         return str.toString();
 
-    } // ok
+    }
 
     public int dimension() {
         return this.dimension;
-    } // ok
+    }
 
     public int hamming() {
         int hamming = 0;
@@ -54,7 +53,7 @@ class Board {
         }
 
         return hamming;
-    } // ok
+    }
 
     public int manhattan() {
 
@@ -68,7 +67,6 @@ class Board {
                     int x = tile % dimension == 0 ? (int) Math.floor(tile / dimension) - 1 : (int) Math.floor(tile / dimension);
                     int y = tile % dimension > 0 ? (tile % dimension) - 1 : dimension -1;
                     int d = Math.abs(x-i) + Math.abs(y-j);
-                    System.out.println("distance from (" + i + "," + j + ") " + "to " + "(" + x + "," + y + ")");
                     manhattan += Math.abs(x-i) + Math.abs(y-j);
                 }
             }
@@ -76,7 +74,7 @@ class Board {
         return manhattan;
     }
 
-    public boolean isGoal() { // testar de novo
+    public boolean isGoal() {
 
         int orderedTile = 1;
 
@@ -91,7 +89,7 @@ class Board {
         }
 
         return true;
-    } // ok
+    }
 
     public boolean equals(Object y) {
 
@@ -110,7 +108,7 @@ class Board {
 
         return true;
 
-    } // ok
+    }
 
     public Iterable<Board> neighbors() {
         ArrayList<Board> boards = new ArrayList<>();
@@ -119,53 +117,67 @@ class Board {
 
     public Board twin() {
 
-
         int[][] twin = new int[dimension][dimension];
-        int x1 = (int) Math.floor((Math.random() * this.dimension));
-        int y1 = (int) Math.floor((Math.random() * this.dimension));
+        int temp;
+        int x1;
+        int y1;
         int x2;
         int y2;
+
+        // chooses a pair of random board tiles
+        x1 = (int) Math.floor((Math.random() * this.dimension));
+        y1 = (int) Math.floor((Math.random() * this.dimension));
         do {
             x2 = (int) Math.floor((Math.random() * this.dimension));
             y2 = (int) Math.floor((Math.random() * this.dimension));
         } while (x1 == x2 && y1 == y2);
 
+        // clones a board. refactor to use clone method from Object.
+        // In order to clone an Object we must implement the java.lang.Cloneable interface
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                twin[i][j] = this.board[i][j];
+            }
+        }
 
+        // exchanges the two chosen tiles
+        temp = twin[x1][y1];
+        twin[x1][y1] = twin[x2][y2];
+        twin[x2][y2] = temp;
 
-        ///// there's stuff left to do here
-        ///// in order to clone an Object we must implement the java.lang.Cloneable interface
-        int[][] temp = {{1,2},{1,2}}; // this is just here so that there are no errors. remove when finished.
-        return new Board(temp);
+        return new Board(twin);
 
-    } //not yet implemented
-
-
-    private void message(int i, int j, int x, int y, int expectedX, int expectedY) {
-        System.out.println("failed for tile " + this.board[i][j] + ". Is (" + x + "," + y + "). " +
-                        "Should be (" + expectedX + "," + expectedY + ")");
     }
+
 
     public static void main(String[] args) {
 
         int[][] boardArray = {{1,3,5},{4,6,2},{7,8,9}};
         int[][] boardArray2 = {{1,3,5},{4,6,2},{7,8,9}};
         int[][] goalBoard = {{1,2,3},{4,5,6},{7,8,0}};
+        int[][] goalBoard4By4 = {{1,2,3,4},{5,6,7,8},{9,10,11,12},{13,14,15,0}};
         int[][] hammingManhattanTest = {{8,1,3,9},{10,4,0,2},{7,6,11,5},{14,12,15,13}};
         Board myBoard = new Board(boardArray);
-//        Board myBoard2 = new Board(boardArray2);
-//        Board myBoardGoal = new Board(goalBoard);
+        Board myBoard2 = new Board(boardArray2);
+        Board myBoardGoal = new Board(goalBoard);
+        Board myGoalBoard4By4 = new Board(goalBoard4By4);
         Board myBoardHammingManhattan = new Board(hammingManhattanTest);
 //        System.out.println(myBoardHammingManhattan.manhattanTest());
-        System.out.println(myBoardHammingManhattan.toString());
+//        System.out.println(myBoardHammingManhattan.toString());
 
+//        System.out.println("myBoard.isGoal(): " + myBoard.isGoal());
+//        System.out.println("myBoard2.isGoal(): " + myBoard2.isGoal());
 //        System.out.println("myBoardGoal.isGoal(): " + myBoardGoal.isGoal());
+//        System.out.println("myBoardHammingManhattan.isGoal(): " + myBoardHammingManhattan.isGoal());
+//        System.out.println("myGoalBoard4By4.isGoal(): " + myGoalBoard4By4.isGoal());
 //        System.out.println("myBoardHamming.toString():\n" + myBoardHammingManhattan.toString());
 //        System.out.println("Hamming distance: " + myBoardHammingManhattan.hamming());
-        System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
+          System.out.println("Manhattan distance: " + myBoardHammingManhattan.manhattan());
 //        System.out.println("myBoard.toString():\n" + myBoard.toString());
 //        System.out.println("myBoard.equals(myBoard2): " + myBoard.equals(myBoard2));
-//        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
+            System.out.println("Manhattan distance: " + myBoardHammingManhattan.twin().manhattan());
 //            System.out.println(myBoardHammingManhattan.twin().toString());
-//        }
+        }
     }
 }
