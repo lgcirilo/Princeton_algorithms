@@ -164,9 +164,9 @@ class Board {
 
         }
 
-        for (Board board: boards) {
-            System.out.println(board.toString());
-        }
+//        for (Board board: boards) {
+//            System.out.println(board.toString());
+//        }
 
         return boards;
     }
