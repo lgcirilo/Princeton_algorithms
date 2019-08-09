@@ -6,10 +6,13 @@ import java.util.Comparator;
 
 public class Solver {
 
-    private Board previous = null;
-    private int moves = 0;
+    private class searchNode {
+        private static int moves = 0;
+        private Board board;
+        private Board previous;
+    }
     private MinPQ<Board> boardMinPQ = new MinPQ<>(new BoardComparatorHamming());
-//    private ArrayList<Board> solution = new ArrayList<>();
+    private ArrayList<Board> solution = new ArrayList<>();
     private ArrayList<Board> boardsOnPreviousPass = new ArrayList<>();
 //    private ArrayList<Board> temp = new ArrayList<>();
 //    int[][] arr1 = {{1,0,3},{4,2,5},{7,8,6}};
@@ -24,13 +27,15 @@ public class Solver {
     // find a solution to the initial board (using the A* algorithm)
     public Solver(Board initial) {
 
+
         if (initial == null) {
             throw new IllegalArgumentException();
         }
 
         boardMinPQ.insert(initial);
 //        boardsOnPreviousPass.add(initial);
-        previous = boardMinPQ.delMin();
+        Board tempBoard = boardMinPQ.delMin();
+        new Solver(tempBoard);
         System.out.println(previous.toString());
 
 
@@ -88,13 +93,14 @@ public class Solver {
 
     // min number of moves to solve initial board
     public int moves(){
-        return solution.size() - 1;
+        return moves;
     }
 
     // sequence of boards in a shortest solution
-    public Iterable<Board> solution(){
-        return solution;
-    }
+//    public Iterable<Board> solution(){
+//        Stack<Board>
+//        return solution;
+//    }
 
     private class BoardComparatorHamming implements Comparator<Board> {
         public int compare(Board a, Board b) {
