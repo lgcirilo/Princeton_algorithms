@@ -1,5 +1,6 @@
 class LeetCodeSolutions {
 
+    // 1266. Minimum Time Visiting All Points - 27/11/2019
     public int minTimeToVisitAllPoints(int[][] points) {
         int moves = 0;
         for (int i = 1; i < points.length; i++) {
@@ -10,6 +11,7 @@ class LeetCodeSolutions {
         return moves;
     }
 
+    // 1221. Split a String in Balanced Strings - 27/11/2019
     public int balancedStringSplit(String s) {
         int r = 0;
         int l = 0;
@@ -32,17 +34,66 @@ class LeetCodeSolutions {
         return strNum;
     }
 
+    // 1252. Cells with Odd Values in a Matrix - 28/11/2019
+    public int oddCells(int n, int m, int[][] indices) {
+
+        int[] rows = new int[n];
+        int[] cols = new int[m];
+        int odds = 0;
+
+        for (int i = 0; i < indices.length; i++) {
+            rows[indices[i][0]]++;
+            cols[indices[i][1]]++;
+        }
+
+        for (int j = 0; j < rows.length; j++) {
+            for (int k = 0; k < cols.length; k++) {
+                if ((rows[j] + cols[k]) % 2 != 0) {
+                    odds++;
+                }
+            }
+        }
+
+        return odds;
+    }
+
+    // 709. To Lower Case - 28/11/2019
+    public String toLowerCase(String str) {
+
+        StringBuilder upperLower = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            if ((int) str.charAt(i) >= 65 && (int) str.charAt(i) < 91 ) {
+                upperLower.append((char) (str.charAt(i) + 32));
+            } else {
+                upperLower.append(str.charAt(i));
+            }
+        }
+
+        return upperLower.toString();
+    }
+
+    static int oneDIndex(int x, int y, int cols) {
+        return x*cols + y;
+    }
+
     public static void main(String[] args) {
-        LeetCodeSolutions s = new LeetCodeSolutions();
-        int[][] ps = {{1,1},{3,4},{-1,0}};
-        String str = "RLRLRLRLRLLLLRRRRLLR";
-        System.out.println(s.minTimeToVisitAllPoints(ps));
-        System.out.println(s.balancedStringSplit(str));
+//        LeetCodeSolutions s = new LeetCodeSolutions();
+//        int[][] ps = {{1,1},{3,4},{-1,0}};
+//        String str = "RLRLRLRLRLLLLRRRRLLR";
+//        System.out.println(s.minTimeToVisitAllPoints(ps));
+//        System.out.println(s.balancedStringSplit(str));
+        StringBuilder upperLower = new StringBuilder();
+        for (int i = 65; i < 91; i++) {
+            upperLower.append((char) i);
+            upperLower.append((char) (i + 32));
+        }
+        System.out.println(upperLower.toString());
     }
 
 }
 
-////////////////////////////////NAIVE SOLUTION///////////////////////////////
+////////////////////////////////NAIVE SOLUTIONS///////////////////////////////
 //    public int minTimeToVisitAllPoints(int[][] points) {
 //        int moves = 0;
 //        boolean moved = false;
@@ -77,11 +128,7 @@ class LeetCodeSolutions {
 //        return moves;
 //    }
 //
-//    public static void main(String[] args) {
-//        Solution s = new Solution();
-//        int[][] ps = {{1,1},{3,4},{-1,0}};
-//        System.out.println(s.minTimeToVisitAllPoints(ps));
-//    }
+//
 //    public int balancedStringSplit(String s) {
 //
 //        Stack<Character> lStk = new Stack<>();
@@ -131,26 +178,29 @@ class LeetCodeSolutions {
 //
 //    }
 //
-//    //best running time. Using only primitives. No stacks.
-//    public int balancedStringSplit(String s) {
 //
-//        int r = 0;
-//        int l = 0;
-//        int strNum = 0;
+//    public int oddCells(int n, int m, int[][] indices) {
 //
-//        for (int i = 0; i < s.length(); i++) {
-//            if (s.charAt(i) == 'R') {
-//                r++;
-//            } else {
-//                l++;
+//        int odds = 0;
+//
+//        int[][] matrix = new int[n][m];
+//        for (int i = 0; i < indices.length; i++) {
+//            for (int row = 0; row < m; row++) {
+//                matrix[indices[i][0]][row]++;
 //            }
 //
-//            if(r == l) {
-//                strNum++;
-//                r = 0;
-//                l = 0;
+//            for (int col = 0; col < n; col++) {
+//                matrix[col][indices[i][1]]++;
 //            }
 //        }
 //
-//        return strNum;
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < m; j++) {
+//                if (matrix[i][j] % 2 != 0) {
+//                    odds++;
+//                }
+//            }
+//        }
+//
+//        return odds;
 //    }
