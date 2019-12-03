@@ -73,6 +73,35 @@ class LeetCodeSolutions {
         return upperLower.toString();
     }
 
+    // 938. Range Sum of BST
+    public int rangeSumBST(BinaryTree.Node root, int L, int R) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        if (root.val >= L && root.val <=R) {
+            return root.val + rangeSumBST(root.right, L, R) + rangeSumBST(root.left, L, R);
+
+        }
+
+        if (root.val < L) {
+            return rangeSumBST(root.right, L, R);
+        }
+
+        if (root.val > R) {
+            return rangeSumBST(root.left, L, R);
+        }
+
+        return 0;
+
+    }
+
+
+    // 1021. Remove Outermost Parentheses
+    // solve without using stacks
+
+
     static int oneDIndex(int x, int y, int cols) {
         return x*cols + y;
     }
