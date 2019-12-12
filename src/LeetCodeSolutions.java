@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 class LeetCodeSolutions {
 
     // 1266. Minimum Time Visiting All Points - 27/11/2019
@@ -73,22 +76,98 @@ class LeetCodeSolutions {
         return upperLower.toString();
     }
 
+    // 938. Range Sum of BST
+    public int rangeSumBST(BinaryTree.Node root, int L, int R) {
+
+        if (root == null) {
+            return 0;
+        }
+
+        if (root.val >= L && root.val <=R) {
+            return root.val + rangeSumBST(root.right, L, R) + rangeSumBST(root.left, L, R);
+
+        }
+
+        if (root.val < L) {
+            return rangeSumBST(root.right, L, R);
+        }
+
+        if (root.val > R) {
+            return rangeSumBST(root.left, L, R);
+        }
+
+        return 0;
+
+    }
+
+    // My solution. Not optimal
+
+
+    // 1. Two Sum
+    // Two pass hash table
+    public int[] twoSum(int[] nums, int target) {
+        int[] resultArr = new int[2];
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i], i);
+        }
+
+        for (int i = 0; i < nums.length; i++) {
+            int complement = target - nums[i];
+            if (map.containsKey(complement) && map.get(complement) != i) {
+                resultArr[0] = i;
+                resultArr[1] = map.get(complement);
+            }
+        }
+        return resultArr;
+
+    }
+
+    // One pass hash table
+//    public int[] twoSum(int[] nums, int target) {
+//        Map<Integer, Integer> map = new HashMap<>();
+//        for (int i = 0; i < nums.length; i++) {
+//            int complement = target - nums[i];
+//            if (map.containsKey(complement)) {
+//                return new int[] { map.get(complement), i };
+//            }
+//            map.put(nums[i], i);
+//        }
+//        throw new IllegalArgumentException("No two sum solution");
+//    }
+
+
+
     static int oneDIndex(int x, int y, int cols) {
         return x*cols + y;
     }
 
     public static void main(String[] args) {
-//        LeetCodeSolutions s = new LeetCodeSolutions();
+        LeetCodeSolutions s = new LeetCodeSolutions();
+//        int[] arr = {2,7,11,15};
+        int[] arr = {-1,-2,-3,-4,-5};
+//        int[] resultArr = s.twoSum(arr,9);
+        int[] resultArr = s.twoSum(arr,-8);
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < resultArr.length; i++) {
+            sb.append(resultArr[i]);
+            if (i < resultArr.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        System.out.println(sb);
 //        int[][] ps = {{1,1},{3,4},{-1,0}};
 //        String str = "RLRLRLRLRLLLLRRRRLLR";
 //        System.out.println(s.minTimeToVisitAllPoints(ps));
 //        System.out.println(s.balancedStringSplit(str));
-        StringBuilder upperLower = new StringBuilder();
-        for (int i = 65; i < 91; i++) {
-            upperLower.append((char) i);
-            upperLower.append((char) (i + 32));
-        }
-        System.out.println(upperLower.toString());
+//        StringBuilder upperLower = new StringBuilder();
+//        for (int i = 65; i < 91; i++) {
+//            upperLower.append((char) i);
+//            upperLower.append((char) (i + 32));
+//        }
+//        System.out.println(upperLower.toString());
     }
 
 }
@@ -203,4 +282,35 @@ class LeetCodeSolutions {
 //        }
 //
 //        return odds;
+//    }
+//
+//    public int[] twoSum(int[] nums, int target) {
+//        boolean done = false;
+//        int[] result = new int[2];
+//        for (int i = 0; i < nums.length - 1; i++) {
+//            for (int j = i + 1; j < nums.length; j++) {
+//                if ( nums[i] + nums[j] == target) {
+//                    System.out.println("jota" + j);
+//                    result[0] = i;
+//                    result[1] = j;
+//                    done = true;
+//                    break;
+//                }
+//            }
+//            if(done == true) {
+//                break;
+//            }
+//        }
+//        return result;
+//    }
+//
+//    public int[] twoSum(int[] nums, int target) {
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = i + 1; j < nums.length; j++) {
+//                if (nums[j] == target - nums[i]) {
+//                    return new int[] { i, j };
+//                }
+//            }
+//        }
+//        throw new IllegalArgumentException("No two sum solution");
 //    }
