@@ -1,3 +1,5 @@
+// TODO - move to separate project. Not part of princeton's algorithms. Check if part of an online judge.
+
 import java.util.Arrays;
 
 public class Median {

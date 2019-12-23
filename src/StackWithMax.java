@@ -1,3 +1,6 @@
+// TODO - move to separate project. Not part of princeton's algorithms. Check if part of an online judge.
+// This probably came from geek for geeks.
+
 import java.util.Stack;
 
 class StackWithMax<Item> extends Stack{

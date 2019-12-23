@@ -1,3 +1,6 @@
+// TODO - move to separate project. Not part of princeton's algorithms. Check if part of an online judge.
+// Don't understand it.
+
 import java.util.Stack;
 
 class reverseStack {
