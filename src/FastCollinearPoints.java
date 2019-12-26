@@ -1,4 +1,3 @@
-import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StopwatchCPU;
 
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ public class FastCollinearPoints {
     private ArrayList<LineSegment> segments = new ArrayList<LineSegment>();
     private ArrayList<ArrayList<Point>> inSomeSegment = new ArrayList<ArrayList<Point>>();
     private ArrayList<Double> slopes = new ArrayList<Double>();
-//    public int countslpto = 0;
 
     // finds all line segments containing 4 or more points
     public FastCollinearPoints(Point[] points) {
@@ -47,7 +45,6 @@ public class FastCollinearPoints {
                         collinear.add(arr[j]);
                     }
                     if (slope != currentSlope || j == arr.length - 1) {
-//                    else {
                         int index = -1;
                         if (collinear.size() >= 4) {
                             // this for loop determines whether we already found the current segment
@@ -59,19 +56,12 @@ public class FastCollinearPoints {
                             }
                             if (index != -1) {
                                 for (int t = 0; t < inSomeSegment.get(index).size(); t++) {
-//                                    countslpto++;
-//                                        if (inSomeSegment.get(index).get(t).slopeTo(collinear.get(0)) == currentSlope ||
-//                                                inSomeSegment.get(index).get(t).slopeTo(collinear.get(0)) == Double.NEGATIVE_INFINITY) {
                                     if (inSomeSegment.get(index).get(t).slopeTo(collinear.get(0)) == currentSlope) {
                                         segmentExists = true;
-//                                            inSomeSegment.get(s).add(collinear.get(0));
                                         break;
                                     }
                                 }
                             }
-//                                    if (index == s) { break; }
-//                                }
-//                            }
                             if (index == -1) {
                                 slopes.add(currentSlope);
                                 inSomeSegment.add(new ArrayList<Point>());
@@ -86,14 +76,8 @@ public class FastCollinearPoints {
 
                                 }
                             }
-//                            if (segmentExists == false) {
-//                                Collections.sort(collinear);
-//                                segments.add(new LineSegment(collinear.get(0), collinear.get(collinear.size() - 1)));
-//                            }
                         }
-//                        currentSlope = arr[0].slopeTo(arr[j]);
                         currentSlope = slope;
-//                        collinear = new ArrayList<Point>();
                         collinear.clear();
                         collinear.add(arr[0]);
                         collinear.add(arr[j]);
