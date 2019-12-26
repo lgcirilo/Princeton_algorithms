@@ -30,12 +30,19 @@ public class FastCollinearPoints {
 
             for (int i = 0; i < points.length; i++) {
                 // find collinear segments for each point in array arr.
+<<<<<<< HEAD
                 Arrays.sort(arr, points[i].slopeOrder());
                 ArrayList<Point> collinear = new ArrayList<Point>();
                 double currentSlope = Double.NEGATIVE_INFINITY;
                 double slope;
                 boolean segmentExists = false;
                 for (int j = 1; j < arr.length; j++) {
+=======
+                arr = points.clone();
+                Arrays.sort(arr, arr[i].slopeOrder());
+
+                for (int j = 1; j < arr.length - 1; j++) {
+>>>>>>> 24bc7ed1921416d80835f9308c3aa4c4f299e016
                     if (collinear.size() == 0) {
                         collinear.add(arr[0]);
                     }

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Princeton_algorithms">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/Princeton_algorithms/algs4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/out/production/Princeton_algorithms/collinear.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
