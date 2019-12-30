@@ -1,0 +1,17 @@
+leetcode calendar
+-----------------
+
+goal: 8 questions per day until end of vacations
+
+26/12/2019 -
+27/12/2019 -
+28/12/2019 - three easy questions. see original file on mac for actual questions.
+29/12/2019 -
+30/12/2019 -
+
+
+study
+------
+
+- binary tree level order taversal
+- hash
