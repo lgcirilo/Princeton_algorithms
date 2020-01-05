@@ -81,7 +81,7 @@ class LeetCodeSolutions {
     }
 
     // 938. Range Sum of BST
-    public int rangeSumBST(BinaryTree.Node root, int L, int R) {
+    public int rangeSumBST(BinarySearchTree.Node root, int L, int R) {
 
         if (root == null) {
             return 0;

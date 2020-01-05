@@ -7,12 +7,25 @@ goal: 8 questions per day until end of vacations
 27/12/2019 -
 28/12/2019 - three easy questions. see original file on mac for actual questions.
 29/12/2019 -
-30/12/2019 -
+30/12/2019 - 950 (very cool),
+01/01/2019 -
+02/01/2019 -
+03/01/2019 -
+04/01/2019 - 1304 (array)
+05/01/2019 -
 
 
 study
 ------
 
+- understand what interfaces are implemented by linkedList in java (e.g. queue)
 - binary tree level order taversal
 - hash
 - red black trees (might not be needed for interview)
+- b-tree (might not be needed for interview)
+
+notes
+------
+
+- java.util.TreeMap and java.util.TreeSet are implementations of red-black trees
+[17,13,11,2,3,5,7]

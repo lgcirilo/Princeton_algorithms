@@ -1,11 +1,8 @@
 // TODO - move to separate project. Not part of princeton's algorithms. Check if part of an online judge.
 
-import edu.princeton.cs.algs4.In;
-
 import java.util.ArrayList;
-import java.util.List;
 
-public class BinaryTree {
+public class BinarySearchTree {
 
     Node root;
 
@@ -53,8 +50,8 @@ public class BinaryTree {
 
 
 
-    private BinaryTree createBinaryTree() {
-        BinaryTree bt = new BinaryTree();
+    private BinarySearchTree createBinaryTree() {
+        BinarySearchTree bt = new BinarySearchTree();
 
         bt.add(10);
         bt.add(5);
@@ -95,7 +92,7 @@ public class BinaryTree {
 
     public static void main(String[] args) {
 
-        BinaryTree bt = new BinaryTree();
+        BinarySearchTree bt = new BinarySearchTree();
         bt = bt.createBinaryTree();
         ArrayList<Integer> inOrder = new ArrayList<>();
         ArrayList<Integer> preOrder = new ArrayList<>();
